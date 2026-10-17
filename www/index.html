@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACME Inc. Data Dash</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="viz-root">
+  <header class="top">
+    <h1>ACME Inc. <span>Data Dash</span></h1>
+    <nav class="tabs" role="tablist">
+      <button id="tab-business" role="tab" aria-selected="true" type="button">Business</button>
+      <button id="tab-fixtures" role="tab" aria-selected="false" type="button">Numbers &amp; tracks</button>
+    </nav>
+    <span id="mode" class="badge">mock</span>
+    <label>Data
+      <select id="source">
+        <option value="mock">Mock snapshot (standalone)</option>
+        <option value="hub">Live CRUD hub</option>
+      </select>
+    </label>
+    <label>Hub <input id="hub-url" size="24" spellcheck="false"></label>
+    <button id="reload" type="button">Reload</button>
+  </header>
+
+  <main>
+    <div id="business"><p class="loading">Loading WebAssembly ...</p></div>
+    <div id="fixtures" hidden>
+      <div id="fixture-charts"></div>
+      <section class="card wide">
+        <h2>All 100 numbers</h2>
+        <p class="sub">Table view; filter by a class tagged on Wikidata</p>
+        <input id="class-filter" type="search" placeholder="Filter by class, e.g. prime number">
+        <div id="number-table"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer><output id="status"></output></footer>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
