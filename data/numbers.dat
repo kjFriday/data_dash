@@ -1,0 +1,106 @@
+# numbers.dat -- the hundred numbers, as Wikidata files them. Wikidata is CC0 1.0.
+# source   https://query.wikidata.org/sparql -- one SPARQL query, asked by hand
+# answer   71178 bytes, sha256 6c71dcddb84569f917e08c7dfc8d6445adf4808da9f90a50d55627f6677579ca
+# chosen   items that are a natural number, positive integer or non-negative
+#          integer, with a numeric value (P1181) 1..100; one item a number
+# columns  n TAB item TAB sitelinks TAB every class it is an instance of (P31), | between
+1	Q199	221	automorphic number|centered cube number|centered decagonal number|centered dodecahedral number|centered heptagonal number|centered hexagonal number|centered icosahedral number|centered nonagonal number|centered octagonal number|centered octahedral number|centered pentachoric number|centered pentagonal number|centered square number|centered tetrahedral number|centered triangular number|coherent SI unit|cube|decagonal number|dimensionless unit|dodecagonal number|dodecahedral number|eighth power|Fibonacci number|fifth power|fourth power|harshad number|heptagonal number|heptagonal pyramidal number|hexagonal number|hexagonal pyramidal number|icosahedral number|Mersenne number|Motzkin number|multiplicative identity|ninth power|nonagonal number|non-negative integer|octagonal number|odd number|pentagonal number|pentagonal pyramidal number|pentatope number|positive integer|power of 10|power of 1000|power of two|repunit|seventh power|sixth power|square number|square pyramidal number|square triangular number|star number|stella octangula number|tetrahedral number|triangular number|trimorphic number|unit|unit of amount
+2	Q200	202	Bell number|Cantor number|Eisenstein prime|Euclid number|even number|factorial prime|Fibonacci number|Fibonacci prime|harshad number|magic number|Motzkin number|Perrin number|positive integer|power of two|prime number|primorial prime|pronic number|Sophie Germain prime|taxicab number
+3	Q201	196	Cantor number|Euclid number|factorial prime|Fermat number|Fermat prime|Fibonacci number|Fibonacci prime|harshad number|Mersenne number|Mersenne prime|near-square prime|odd number|positive integer|power of three|prime number|primorial prime|triangular number
+4	Q202	190	centered triangular number|composite number|deficient number|even number|harshad number|Motzkin number|positive integer|power of two|semiprime|square number|strictly non-palindromic number|tetrahedral number|trimorphic number
+5	Q203	185	automorphic number|centered square number|centered tetrahedral number|character|factorial prime|Fermat number|Fermat prime|Fibonacci number|Fibonacci prime|harshad number|odd number|pentagonal number|pentatope number|positive integer|prime number|primorial prime|square pyramidal number|trimorphic number
+6	Q23488	179	antisquare number|automorphic number|centered pentachoric number|centered pentagonal number|composite number|digit|even number|harshad number|hexagonal number|highly touchable number|pentagonal pyramidal number|perfect number|positive integer|pronic number|semiprime|strictly non-palindromic number|triangular number|trimorphic number
+7	Q23350	184	Cantor number|centered hexagonal number|centered octahedral number|double Mersenne number|double Mersenne prime|Euclid number|factorial prime|harshad number|heptagonal number|hexagonal pyramidal number|Mersenne number|Mersenne prime|odd number|positive integer|prime number|primorial prime|Woodall number
+8	Q23355	175	centered heptagonal number|composite number|cube|even number|Fibonacci number|harshad number|heptagonal pyramidal number|Leyland number|magic number|octagonal number|positive integer|power of two
+9	Q19108	172	centered cube number|centered octagonal number|composite number|deficient number|harshad number|Motzkin number|nonagonal number|odd number|positive integer|power of three|square number|trimorphic number
+10	Q23806	170	centered nonagonal number|centered triangular number|composite number|decagonal number|deficient number|even number|evil number|harshad number|positive integer|power of 10|semiprime|tetrahedral number|triangular number
+11	Q37136	134	centered decagonal number|Eisenstein prime|Jacobsthal number|odd number|palindromic number|positive integer|prime number|repdigit|repunit|repunit prime|safe prime|Sophie Germain prime|strictly non-palindromic number|supersingular prime
+12	Q36977	136	abundant number|admirable number|composite number|dodecagonal number|even number|evil number|harshad number|icosahedral number|pentagonal number|positive integer|pronic number|pseudoperfect number|unit of measurement
+13	Q37141	132	centered icosahedral number|centered square number|deficient number|Fibonacci number|Fibonacci prime|odd number|odious number|positive integer|prime number|star number|Wilson prime
+14	Q38582	119	Catalan number|composite number|deficient number|even number|positive integer|square pyramidal number|stella octangula number
+15	Q38701	118	Bell number|cake number|centered tetrahedral number|composite number|hexagonal number|Mersenne number|odd number|pentatope number|positive integer|triangular number
+16	Q40254	113	centered pentagonal number|composite number|even number|positive integer|power of two|square number
+17	Q40118	113	Fermat number|Fermat prime|Leyland number|odd number|positive integer|prime number
+18	Q38712	117	abundant number|composite number|even number|harshad number|heptagonal number|pentagonal pyramidal number|positive integer
+19	Q39850	112	centered hexagonal number|centered triangular number|octagonal number|odd number|positive integer|prime number|strictly non-palindromic number
+20	Q40292	122	abundant number|admirable number|composite number|dodecahedral number|even number|harshad number|magic number|positive integer|pronic number|tetrahedral number
+21	Q712477	106	centered pentachoric number|composite number|deficient number|Fibonacci number|harshad number|highly touchable number|octagonal number|odd number|positive integer|triangular number
+22	Q712488	104	centered heptagonal number|composite number|deficient number|even number|hexagonal pyramidal number|palindromic number|pentagonal number|positive integer|repdigit
+23	Q48240	101	Eisenstein prime|factorial prime|fortunate number|highly cototient number|odd number|Pillai prime|positive integer|prime number|safe prime|Smarandache–Wellin number|Sophie Germain prime|Wedderburn–Etherington number|Woodall number
+24	Q79988	99	abundant number|composite number|even number|harshad number|nonagonal number|positive integer
+25	Q79986	106	automorphic number|centered octagonal number|centered octahedral number|centered square number|composite number|deficient number|Friedman number|odd number|positive integer|square number
+26	Q83264	97	composite number|deficient number|even number|heptagonal pyramidal number|positive integer
+27	Q433353	97	composite number|cube|decagonal number|deficient number|harshad number|odd number|positive integer|power of three
+28	Q587465	100	centered nonagonal number|composite number|even number|hexagonal number|magic number|perfect number|positive integer|triangular number
+29	Q543929	99	odd number|positive integer|prime number|primorial prime
+30	Q42817	114	abundant number|composite number|even number|Giuga number|harshad number|hendecagonal number|positive integer|pronic number|sphenic number|square pyramidal number
+31	Q712692	93	centered decagonal number|centered pentagonal number|centered triangular number|Euclid number|highly touchable number|Mersenne number|Mersenne prime|odd number|positive integer|prime number|primorial prime
+32	Q712701	89	composite number|even number|fifth power|Leyland number|positive integer|power of two
+33	Q712661	87	centered dodecahedral number|composite number|dodecagonal number|odd number|palindromic number|positive integer|repdigit
+34	Q712639	86	composite number|even number|Fibonacci number|heptagonal number|positive integer
+35	Q434712	86	centered cube number|centered tetrahedral number|composite number|odd number|pentagonal number|pentatope number|positive integer|tetrahedral number
+36	Q712794	85	abundant number|composite number|even number|harshad number|positive integer|square number|square triangular number|triangular number|tridecagonal number
+37	Q712770	84	centered hexagonal number|odd number|positive integer|prime number|star number
+38	Q600809	82	composite number|even number|nontotient|positive integer|semiprime
+39	Q712782	83	composite number|odd number|positive integer|tetradecagonal number
+40	Q42317	104	abundant number|composite number|even number|harshad number|octagonal number|pentagonal pyramidal number|positive integer|Zumkeller number
+41	Q712623	85	centered square number|odd number|positive integer|prime number
+42	Q812996	93	abundant number|composite number|even number|harshad number|pentadecagonal number|positive integer|pronic number
+43	Q282113	85	centered heptagonal number|odd number|positive integer|prime number
+44	Q712706	84	composite number|even number|octagonal number|palindromic number|positive integer|repdigit
+45	Q627861	87	composite number|harshad number|hexadecagonal number|hexagonal number|odd number|positive integer|triangular number
+46	Q712744	86	centered triangular number|composite number|Erdős–Woods number|even number|nonagonal number|positive integer
+47	Q712687	85	odd number|positive integer|prime number|strictly non-palindromic number
+48	Q712764	84	abundant number|composite number|even number|harshad number|heptadecagonal number|icosahedral number|positive integer
+49	Q712758	83	centered octagonal number|composite number|highly touchable number|odd number|positive integer|square number
+50	Q712519	106	composite number|even number|harshad number|hexagonal pyramidal number|magic number|positive integer
+51	Q895860	82	centered pentagonal number|composite number|octadecagonal number|odd number|pentagonal number|positive integer|stella octangula number
+52	Q712995	82	composite number|decagonal number|even number|positive integer
+53	Q712808	82	odd number|positive integer|prime number|strictly non-palindromic number
+54	Q290669	82	abundant number|almost prime|arithmetic number|Brazilian number|composite number|congruent number|enneadecagonal number|even number|evil number|harshad number|Leyland number|nonhypotenuse number|polite number|positive integer|practical number|regular number|smooth number|trapezoidal number
+55	Q686819	85	centered icosahedral number|centered nonagonal number|composite number|Fibonacci number|heptagonal number|Kaprekar number|odd number|palindromic number|positive integer|repdigit|semiprime|square pyramidal number|triangular number
+56	Q522994	80	abundant number|centered pentachoric number|composite number|even number|positive integer|pronic number|tetrahedral number
+57	Q713133	80	composite number|icosagonal number|Leyland number|odd number|positive integer
+58	Q241673	78	composite number|even number|hendecagonal number|positive integer
+59	Q593011	78	highly cototient number|odd number|positive integer|prime number
+60	Q79998	102	abundant number|composite number|even number|harshad number|heptagonal pyramidal number|icosihenagonal number|positive integer
+61	Q774689	80	centered decagonal number|centered hexagonal number|centered square number|odd number|Pillai prime|positive integer|prime number
+62	Q593966	81	composite number|even number|positive integer|semiprime
+63	Q712986	79	centered octahedral number|composite number|harshad number|icosidigonal number|Mersenne number|odd number|positive integer
+64	Q435660	81	centered triangular number|composite number|cube|dodecagonal number|Erdős–Woods number|even number|positive integer|power of two|sixth power|square number
+65	Q645260	79	composite number|octagonal number|odd number|positive integer
+66	Q712966	82	abundant number|composite number|even number|hexagonal number|icositrigonal number|palindromic number|positive integer|repdigit|sphenic number|triangular number
+67	Q713157	79	odd number|positive integer|prime number
+68	Q661982	78	composite number|even number|positive integer
+69	Q713048	82	centered tetrahedral number|composite number|icositetragonal number|internet meme|odd number|positive integer|semiprime
+70	Q712514	99	abundant number|composite number|even number|harshad number|pentagonal number|pentatope number|positive integer|sphenic number|tridecagonal number|weird number
+71	Q586651	77	centered heptagonal number|odd number|positive integer|prime number
+72	Q243817	77	abundant number|composite number|even number|harshad number|positive integer|pronic number
+73	Q713122	80	highly touchable number|odd number|positive integer|prime number|star number
+74	Q713143	76	composite number|even number|positive integer|semiprime
+75	Q601660	80	composite number|nonagonal number|odd number|pentagonal pyramidal number|positive integer
+76	Q543190	78	automorphic number|centered pentagonal number|composite number|even number|positive integer|tetradecagonal number
+77	Q713167	79	composite number|odd number|palindromic number|positive integer|repdigit|semiprime
+78	Q713229	78	abundant number|composite number|even number|positive integer|triangular number
+79	Q713148	79	odd number|positive integer|prime number|strictly non-palindromic number
+80	Q712467	98	abundant number|composite number|even number|harshad number|positive integer
+81	Q712876	78	centered octagonal number|composite number|harshad number|heptagonal number|odd number|positive integer|power of three|square number
+82	Q713217	76	composite number|even number|magic number|pentadecagonal number|positive integer|semiprime
+83	Q713181	78	odd number|positive integer|prime number
+84	Q279264	75	composite number|dodecahedral number|even number|harshad number|positive integer|tetrahedral number
+85	Q427730	76	centered square number|centered triangular number|composite number|decagonal number|octagonal number|odd number|positive integer
+86	Q713221	76	composite number|even number|positive integer
+87	Q285042	78	composite number|odd number|positive integer
+88	Q341102	80	composite number|even number|hexadecagonal number|palindromic number|positive integer|repdigit
+89	Q535061	77	Fibonacci number|Fibonacci prime|odd number|positive integer|prime number
+90	Q239346	95	composite number|even number|harshad number|positive integer|pronic number
+91	Q690992	74	cabtaxi number|centered cube number|centered hexagonal number|centered nonagonal number|composite number|hexagonal number|highly touchable number|odd number|positive integer|semiprime|square pyramidal number|triangular number
+92	Q277312	76	composite number|even number|pentagonal number|positive integer
+93	Q31118	73	composite number|odd number|positive integer|semiprime
+94	Q683782	74	composite number|even number|heptadecagonal number|positive integer|semiprime
+95	Q595170	75	composite number|hendecagonal number|hexagonal pyramidal number|odd number|positive integer|semiprime
+96	Q280167	74	composite number|even number|octagonal number|positive integer
+97	Q673849	75	odd number|positive integer|prime number
+98	Q713239	76	composite number|even number|positive integer
+99	Q435673	83	composite number|odd number|palindromic number|positive integer|repdigit
+100	Q37413	142	composite number|even number|harshad number|Leyland number|octadecagonal number|positive integer|power of 10|square number
