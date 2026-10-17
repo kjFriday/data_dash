@@ -14,8 +14,6 @@ Two tabs:
 - **Numbers & tracks:** the two fixture files in `data/`, charted as `data/README.md` describes, with a
   filterable, paged table view.
 
-`idea.md` (a FastAPI + React plan) is superseded by this build and kept for reference.
-
 ## Build and run
 
 Needs Rust with the `wasm32-unknown-unknown` target and `wasm-pack` (`cargo install wasm-pack`).

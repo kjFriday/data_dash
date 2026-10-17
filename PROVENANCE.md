@@ -2,7 +2,7 @@
 
 This file records where each data file came from. Sources are identified by
 their SHA-256 and relative path in the staged copies listed in
-`D:\Portfolio\_extracted\MANIFEST.tsv`. The source root folder names are not
+the owner's private staging manifest (`_extracted/MANIFEST.tsv`, kept locally and not published). The source root folder names are not
 repeated here because they contain terms that are excluded from this project.
 
 | File | Source (staged relpath, SHA-256) | Change | Result SHA-256 |
