@@ -76,3 +76,7 @@ td.classes { color: var(--text-secondary); }
 footer > output { display: block; padding: 6px 16px; border-top: 1px solid var(--ring); background: var(--surface-1); color: var(--muted); font-family: ui-monospace, monospace; font-size: 12px; }
 footer > output.error { color: var(--danger); }
 .loading { color: var(--muted); }
+
+/* pixel icon: whole-pixel blocks, never smoothed */
+.px { image-rendering: pixelated; vertical-align: middle; margin-right: 8px; }
+footer .version { float: right; color: var(--muted); }

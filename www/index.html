@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>ACME Inc. Data Dash</title>
+  <link rel="icon" href="favicon.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="viz-root">
   <header class="top">
-    <h1>ACME Inc. <span>Data Dash</span></h1>
+    <h1><img class="px" src="favicon.png" width="32" height="32" alt="">ACME Inc. <span>Data Dash</span></h1>
     <nav class="tabs" role="tablist">
       <button id="tab-business" role="tab" aria-selected="true" type="button">Business</button>
       <button id="tab-fixtures" role="tab" aria-selected="false" type="button">Numbers &amp; tracks</button>
@@ -16,12 +17,13 @@
     <span id="mode" class="badge">mock</span>
     <label>Data
       <select id="source">
-        <option value="mock">Mock snapshot (standalone)</option>
-        <option value="hub">Live CRUD hub</option>
+        <option value="hub">Shared database</option>
+        <option value="mock">Mock snapshot</option>
       </select>
     </label>
-    <label>Hub <input id="hub-url" size="24" spellcheck="false"></label>
     <button id="reload" type="button">Reload</button>
+    <button id="change-db" type="button">Database…</button>
+    <button id="about" type="button">About</button>
   </header>
 
   <main>
@@ -37,7 +39,7 @@
     </div>
   </main>
 
-  <footer><output id="status"></output></footer>
+  <footer><output id="status"></output><span id="version" class="version"></span></footer>
   <script type="module" src="main.js"></script>
 </body>
 </html>
