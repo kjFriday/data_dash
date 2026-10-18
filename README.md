@@ -20,7 +20,11 @@ Two tabs:
 
 ## Build and run
 
-Needs Rust (MSVC toolchain) with the `wasm32-unknown-unknown` target and `wasm-pack`.
+Needs Rust (MSVC toolchain) with the `wasm32-unknown-unknown` target and `wasm-pack`. In PowerShell:
+
+```bash
+$env:CARGO_ENCODED_RUSTFLAGS = "--remap-path-prefix=$env:USERPROFILE=~"
+```
 
 ```bash
 wasm-pack build --target web --out-dir www/pkg --no-typescript
@@ -34,7 +38,9 @@ cargo build --release --features desktop
 target\release\acme-dash.exe
 ```
 
-The exe serves the page from the `www` folder beside it (or this project's `www`). `build.rs` links
+The first command keeps the build machine's paths out of the wasm and the exe: both builds write the
+user folder, which holds cargo's crate sources and rustup's library sources, as `~` (one flag, so a
+folder name with spaces works). The exe serves the page from the `www` folder beside it (or this project's `www`). `build.rs` links
 `icon/app.res`: the pixel icon and a DPI-aware manifest. The page still runs in a plain browser on the
 mock snapshot (`python -m http.server 8711 --directory www`; `?tab=fixtures` opens the second tab).
 
