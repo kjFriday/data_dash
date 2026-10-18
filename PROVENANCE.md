@@ -12,3 +12,10 @@ repeated here because they contain terms that are excluded from this project.
 | `data/README.md` | Written new. | The `tracks.dat` column order (T, X, Y, ID) comes from the `READ` statement of the original Fortran reader. The counts and ranges were computed from the two files above. | - |
 
 Licence: `numbers.dat` is Wikidata content, CC0 1.0, as its header states.
+
+## Copied in 0.2.0 (same portfolio, AGPL-3.0)
+
+| File | From | Changes |
+|---|---|---|
+| `src/host/{mod,api,assets,install,paths}.rs`, `build.rs`, `tests/icon.rs` | the ticket tracker's `src/host`, `build.rs`, `tests/icon.rs` | Imports only; Data Dash passes read-only tables (`src/main.rs`). The installer and paths are themselves ports of the CRUD hub's `installer.py` and `paths.py`. |
+| `src/host/textsafe.rs` | the ticket tracker's `core::validate::clean` (the hub's textsafe rules) | Moved to its own module, with a test. |
