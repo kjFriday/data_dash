@@ -1,3 +1,12 @@
+/* ==== ACME Inc. portfolio =============================================== */
+/* Project: data_dash | File: www/style.css */
+/* About: Reference palette (validated): categorical slots, chart chrome and ink, light and dark... */
+/* Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only */
+/* You may change this file under the AGPL-3.0. The stamp at the end marks */
+/* the version kjFriday wrote. Verify with the portfolio's stamp.py --check. */
+/* Reused code, if any, is mapped in PROVENANCE.md. */
+/* ======================================================================== */
+
 /* Reference palette (validated): categorical slots, chart chrome and ink, light and dark steps. */
 .viz-root {
   color-scheme: light;
@@ -80,3 +89,5 @@ footer > output.error { color: var(--danger); }
 /* pixel icon: whole-pixel blocks, never smoothed */
 .px { image-rendering: pixelated; vertical-align: middle; margin-right: 8px; }
 footer .version { float: right; color: var(--muted); }
+
+/* ==== stamp v1 | author=kjFriday | hmac-sha256=3e9d742c220410bacade902aa3c52e0b00ca76214369e7516fa2b5897d7343d6 ==== */

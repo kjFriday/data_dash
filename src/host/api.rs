@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/host/api.rs
+// About: The page's data API, answered from the shared SQLite file with the CRUD hub's contract...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! The page's data API, answered from the shared SQLite file with the CRUD hub's contract:
 //! `GET /api/{table}?limit&offset` (newest first, `X-Total-Count`), `GET /api/{table}/{id}`, and for the
 //! one writable table `POST`, `PATCH /{id}`, `DELETE /{id}` with 201/200, 400, 404 and 409. Every string
@@ -274,3 +283,5 @@ mod tests {
         assert!(!missing.exists());
     }
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=14dfa8106f07c7bc1db7e1b1b0005e60a485de54dad256dd91969362cedb0b12 ====

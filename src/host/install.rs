@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/host/install.rs
+// About: Install or uninstall the program for the current user (no admin rights): the exe, its...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! Install or uninstall the program for the current user (no admin rights): the exe, its `www` page and
 //! icon go to %LOCALAPPDATA%\Programs\ACME Inc\<name>\ with an install.json marker; a Start-menu shortcut
 //! (and optionally a desktop one) and an uninstall entry under HKCU\...\Uninstall\<app id> make it show
@@ -661,3 +670,5 @@ mod tests {
         assert!(run_and_wait(&std::env::temp_dir().join("acme-none").join("uninstall.exe"), &[]).is_err());
     }
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=e61f563af1d4d69a8ddca0de45dabb70d65e0d2f876c7c7766c51b465011c0f5 ====

@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/web.rs
+// About: Page wiring.
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! Page wiring. The Business view reads the shared database, served at the same origin by the desktop
 //! program (`/api/...`), or the embedded mock snapshot when there is none (or in a plain browser);
 //! the Fixtures view always reads data/numbers.dat and data/tracks.dat, compiled in.
@@ -276,3 +285,5 @@ fn wire() -> Result<(), JsValue> {
     })?;
     Ok(())
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=7f8e4fd11cd3dfef46cf855cd7aa38c14a116d89b416ece6c2dfd505acb66cd2 ====

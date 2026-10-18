@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/core/metrics.rs
+// About: Business metrics over hub rows.
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! Business metrics over hub rows. Money is summed in whole cents, never as floats.
 
 use serde::Deserialize;
@@ -256,3 +265,5 @@ mod tests {
         assert!(kpis(&d).revenue_cents > 0);
     }
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=9c0e34b6d808e59f70ed96a3ecba76d18975a7956ce8c31deb8cd1ec4ef31eb4 ====

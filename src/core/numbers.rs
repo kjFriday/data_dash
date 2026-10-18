@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/core/numbers.rs
+// About: data/numbers.dat: n TAB item TAB sitelinks TAB classes (| separated); `#` lines are...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! data/numbers.dat: n TAB item TAB sitelinks TAB classes (| separated); `#` lines are comments.
 
 use std::collections::BTreeMap;
@@ -118,3 +127,5 @@ mod tests {
         assert_eq!(parse("# only a comment\r\n\r\n").unwrap().len(), 0);
     }
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=9337f51dc8bec9708019f0964455e5303f0da296d41d6b7eb20f68911e03d60c ====

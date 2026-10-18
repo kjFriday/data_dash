@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/core/tracks.rs
+// About: data/tracks.dat: t x y id, space-separated, one sample per row.
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! data/tracks.dat: t x y id, space-separated, one sample per row.
 
 use std::collections::BTreeMap;
@@ -67,3 +76,5 @@ mod tests {
         assert!(parse("1 2 3 x").is_err());
     }
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=9e0ac1a816ee45033f30f89bbe0e4d73b0dfcc9ae654823759474eb7cf2ebc89 ====

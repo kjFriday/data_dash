@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: tests/icon.rs
+// About: The pixel icon: app.ico holds 16/32/48 px as BMP and 256 px as PNG, the BMP sizes are the...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! The pixel icon: app.ico holds 16/32/48 px as BMP and 256 px as PNG, the BMP sizes are the 16 px image
 //! enlarged by whole pixels, and app-32.rgba (the window icon) is the 32 px image.
 
@@ -62,3 +71,5 @@ fn credited() {
     let readme = include_str!("../icon/README.md");
     assert!(readme.contains("Creative Commons Attribution 2.5") && readme.contains("Mark James"));
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=cf058c6c9cbee4c3ee33a5bdf0563a63f8ac78ec456b5b3188401a605f4db478 ====

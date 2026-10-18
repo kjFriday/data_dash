@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/host/mod.rs
+// About: The desktop program: a native window (tao) with Edge WebView2 (wry) showing the wasm page...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! The desktop program: a native window (tao) with Edge WebView2 (wry) showing the wasm page from
 //! `www/`. The page's requests to `/api/...` are answered in-process from the shared SQLite file through
 //! the custom protocol `acme://` (no network port at all); `/host/...` covers what only the program can
@@ -350,3 +359,5 @@ mod tests {
         assert!(d.starts_with("20") && d[4..6].parse::<u32>().unwrap() <= 12);
     }
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=e46546d2c395e78fd4526e82aebc32a22668c55a1511bb360fc7d76b53b931bc ====

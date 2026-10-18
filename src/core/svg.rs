@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/core/svg.rs
+// About: Hand-built SVG charts.
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! Hand-built SVG charts. Colors are CSS custom properties (see www/style.css), so light and dark
 //! steps swap in one place. Marks follow one spec: bars <= 24px with a 4px rounded data end and a
 //! square baseline, 2px lines, >= 8px markers with a 2px surface ring, hairline grid, and a
@@ -283,3 +292,5 @@ mod tests {
         assert!(!p.contains("NaN") && !p.contains(">-0<"));
     }
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=77fb33ff5a84e10b647e5a62ddde728e5afb745c8588aaa04a7ae2ad4250a6f5 ====

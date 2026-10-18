@@ -1,3 +1,12 @@
+// ==== ACME Inc. portfolio ===============================================
+// Project: data_dash | File: src/main.rs
+// About: acme-dash: ACME Data Dash as a desktop program (build with `--features desktop`).
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
 //! acme-dash: ACME Data Dash as a desktop program (build with `--features desktop`).
 #![windows_subsystem = "windows"]
 
@@ -26,3 +35,5 @@ fn main() {
         smoke_count: "(document.getElementById('status').textContent.includes('Shared database') || document.getElementById('status').textContent.includes('mock snapshot')) ? document.querySelectorAll('#business svg').length : 0",
     });
 }
+
+// ==== stamp v1 | author=kjFriday | hmac-sha256=004c416655a9574de12ffb998cc959f0aa86770beac2c50af6ba5e764430cd81 ====
