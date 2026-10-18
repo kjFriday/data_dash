@@ -56,6 +56,8 @@ in **Apps & features**. `--uninstall` (or Apps & features) removes it; the datab
 (`--purge` also removes the program's settings and WebView2 profile). `--root DIR` does all of it inside
 DIR. Other flags: `--version`, `--quiet`, `--smoke FILE`.
 
+`wizard-maker.exe build setup.json` (ACME Wizard Maker) makes the setup, `dist\ACME Data Dash-0.2.0-setup.exe`.
+
 ## Tests
 
 ```bash
