@@ -12,7 +12,7 @@ Two tabs:
   - **Shared database:** the window opens the Generic Company database **read-only, by path** (`--db PATH`,
     `GENERIC_COMPANY_DB`, the file chosen with **Database…**, or `%LOCALAPPDATA%\Generic Company Inc\generic_company.db`) and reads every
     row of `orders`, `products`, `customers` and `tickets`, paged with `?limit=500&offset=N`, through the
-    window's own `generic_company://` protocol (no network port). Writes are refused (405).
+    window's own `generic-company://` protocol (no network port). Writes are refused (405).
   - **Mock snapshot:** with no database (or `--mock`, or *Data → Mock snapshot*) the bundled `mock/`
     snapshot (3,000 orders, 400 tickets).
 - **Numbers & tracks:** the two fixture files in `data/`, charted as `data/README.md` describes, with a
