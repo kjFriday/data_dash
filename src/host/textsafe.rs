@@ -1,4 +1,13 @@
-// ==== ACME Inc. portfolio ===============================================
+// ==== Generic Company Inc. portfolio ====================================
+// Project: data_dash | File: src/host/textsafe.rs
+// About: ==== Generic Company Inc. portfolio ===============================================...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
+// ==== Generic Company Inc. portfolio ===============================================
 // Project: data_dash | File: src/host/textsafe.rs
 // About: The CRUD hub's textsafe rules (copied from the ticket tracker's `core::validate::clean`)...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
@@ -39,4 +48,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=1c04e8ad2026ffe4af39af9909c4dcc643bb090b7a809bfd1aa4cc02c7d0ae28 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=5f1afebc026fa72b278e10047a51fd8e1409db4f2af5bec2f0d4465f8394c9b4 ====

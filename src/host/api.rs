@@ -1,4 +1,13 @@
-// ==== ACME Inc. portfolio ===============================================
+// ==== Generic Company Inc. portfolio ====================================
+// Project: data_dash | File: src/host/api.rs
+// About: ==== Generic Company Inc. portfolio ===============================================...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
+// ==== Generic Company Inc. portfolio ===============================================
 // Project: data_dash | File: src/host/api.rs
 // About: The page's data API, answered from the shared SQLite file with the CRUD hub's contract...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
@@ -278,10 +287,10 @@ mod tests {
         let bad = Connection::open_in_memory().unwrap();
         bad.execute_batch("CREATE TABLE tickets (id INTEGER, title TEXT); CREATE TABLE customers (id INTEGER)").unwrap();
         assert!(check_schema(&bad, &TABLES).unwrap_err().starts_with("tickets lacks"));
-        let missing = std::env::temp_dir().join("acme-tickets-test-missing.db");
+        let missing = std::env::temp_dir().join("generic-company-tickets-test-missing.db");
         assert!(open(&missing, true).is_err());
         assert!(!missing.exists());
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=14dfa8106f07c7bc1db7e1b1b0005e60a485de54dad256dd91969362cedb0b12 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=93e6b527af4d0e5d56e1cfef14e02daf470482c357d17e34a906e78cb01f4cd9 ====

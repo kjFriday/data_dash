@@ -1,4 +1,13 @@
-// ==== ACME Inc. portfolio ===============================================
+// ==== Generic Company Inc. portfolio ====================================
+// Project: data_dash | File: src/web.rs
+// About: ==== Generic Company Inc. portfolio ===============================================...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
+// ==== Generic Company Inc. portfolio ===============================================
 // Project: data_dash | File: src/web.rs
 // About: Page wiring.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
@@ -54,7 +63,7 @@ pub fn start() -> Result<(), JsValue> {
     el("fixture-charts").set_inner_html(&render::fixtures(&numbers, &samples));
     APP.with(|a| *a.borrow_mut() = Some(App { numbers, class: String::new(), page: 0 }));
     draw_table();
-    el("version").set_text_content(Some(concat!("ACME Data Dash ", env!("CARGO_PKG_VERSION"))));
+    el("version").set_text_content(Some(concat!("Generic Company Data Dash ", env!("CARGO_PKG_VERSION"))));
     wire()?;
     if query_param("tab").as_deref() == Some("fixtures") {
         show_tab("fixtures");
@@ -130,7 +139,7 @@ async fn get_text(url: &str) -> Result<String, String> {
 /// Ask for another database file; the desktop program checks it and saves the choice.
 async fn change_db() {
     let win = web_sys::window().unwrap();
-    let Ok(Some(path)) = win.prompt_with_message("Path of the shared ACME database (acme.db):") else { return };
+    let Ok(Some(path)) = win.prompt_with_message("Path of the shared Generic Company database (generic_company.db):") else { return };
     if path.trim().is_empty() {
         return;
     }
@@ -157,7 +166,7 @@ async fn change_db() {
 async fn about() {
     let db = source_db().await.unwrap_or_else(|| "none (mock snapshot)".into());
     let text = format!(
-        "ACME Data Dash {}\nACME Inc. (fictional)\n\nDatabase: {db}\n\nIcon: Silk \"chart_bar\" by Mark James (famfamfam.com/lab/icons/silk), CC BY 2.5, enlarged by nearest-neighbour.\nCode: AGPL-3.0. All data is fictional.",
+        "Generic Company Data Dash {}\nGeneric Company Inc. (fictional)\n\nDatabase: {db}\n\nIcon: Silk \"chart_bar\" by Mark James (famfamfam.com/lab/icons/silk), CC BY 2.5, enlarged by nearest-neighbour.\nCode: AGPL-3.0. All data is fictional.",
         env!("CARGO_PKG_VERSION")
     );
     let _ = web_sys::window().unwrap().alert_with_message(&text);
@@ -286,4 +295,4 @@ fn wire() -> Result<(), JsValue> {
     Ok(())
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=7f8e4fd11cd3dfef46cf855cd7aa38c14a116d89b416ece6c2dfd505acb66cd2 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=d5eeb91d4dcd738fd7f6f2718ce68ca768a2adfab19b7c2785c0771c98af274b ====

@@ -1,4 +1,13 @@
-// ==== ACME Inc. portfolio ===============================================
+// ==== Generic Company Inc. portfolio ====================================
+// Project: data_dash | File: src/core/svg.rs
+// About: ==== Generic Company Inc. portfolio ===============================================...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
+// ==== Generic Company Inc. portfolio ===============================================
 // Project: data_dash | File: src/core/svg.rs
 // About: Hand-built SVG charts.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
@@ -293,4 +302,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=77fb33ff5a84e10b647e5a62ddde728e5afb745c8588aaa04a7ae2ad4250a6f5 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=c8fccac369d9bd4ce9a099e03f1f53c8da68eefe381e6dcb84f6a5f60cfb3c74 ====

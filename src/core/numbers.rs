@@ -1,4 +1,13 @@
-// ==== ACME Inc. portfolio ===============================================
+// ==== Generic Company Inc. portfolio ====================================
+// Project: data_dash | File: src/core/numbers.rs
+// About: ==== Generic Company Inc. portfolio ===============================================...
+// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
+// You may change this file under the AGPL-3.0. The stamp at the end marks
+// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// Reused code, if any, is mapped in PROVENANCE.md.
+// ========================================================================
+
+// ==== Generic Company Inc. portfolio ===============================================
 // Project: data_dash | File: src/core/numbers.rs
 // About: data/numbers.dat: n TAB item TAB sitelinks TAB classes (| separated); `#` lines are...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
@@ -128,4 +137,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=9337f51dc8bec9708019f0964455e5303f0da296d41d6b7eb20f68911e03d60c ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=b6392f5a5e3e9b3e7ccef989dc150a2ba79a31780a20a2f84b0f584188cb9c36 ====

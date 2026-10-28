@@ -1,19 +1,19 @@
 {
-  "id": "ACME.Dash",
-  "name": "ACME Data Dash",
+  "id": "GenericCompany.Dash",
+  "name": "Generic Company Data Dash",
   "version": "0.2.0",
-  "publisher": "ACME Inc. (fictional)",
-  "group": "ACME Inc",
+  "publisher": "Generic Company Inc. (fictional)",
+  "group": "Generic Company Inc",
   "icon": "icon/app.ico",
   "license": "LICENSE",
   "files": [
-    {"from": "target/release/acme-dash.exe"},
+    {"from": "target/release/generic-company-dash.exe"},
     {"from": "www", "to": "www"}
   ],
   "exclude": [".gitignore"],
-  "run": {"program": "acme-dash.exe"},
+  "run": {"program": "generic-company-dash.exe"},
   "askFolder": true,
   "shortcuts": {"ask": true, "startMenu": true, "desktop": false},
-  "purge": ["{localappdata}\\ACME Inc\\ACME.Dash"],
+  "purge": ["{localappdata}\\Generic Company Inc\\GenericCompany.Dash"],
   "output": "dist/{name}-{version}-setup.exe"
 }

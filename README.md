@@ -1,18 +1,18 @@
 <img src="icon/app-256.png" width="64" height="64" alt="" style="image-rendering: pixelated">
 
-# ACME Data Dash
+# Generic Company Data Dash
 
-The ACME Inc. dashboard as a desktop program: a native window (Edge WebView2) running a Rust →
-WebAssembly page. Charts are hand-built SVG. ACME Inc. and everyone in it is fictional.
+The Generic Company Inc. dashboard as a desktop program: a native window (Edge WebView2) running a Rust →
+WebAssembly page. Charts are hand-built SVG. Generic Company Inc. and everyone in it is fictional.
 
 Two tabs:
 
 - **Business:** revenue (hero figure, by month, by category, top products), buyers, top customers, and
   tickets by status.
-  - **Shared database:** the window opens the ACME database **read-only, by path** (`--db PATH`,
-    `ACME_DB`, the file chosen with **Database…**, or `%LOCALAPPDATA%\ACME Inc\acme.db`) and reads every
+  - **Shared database:** the window opens the Generic Company database **read-only, by path** (`--db PATH`,
+    `GENERIC_COMPANY_DB`, the file chosen with **Database…**, or `%LOCALAPPDATA%\Generic Company Inc\generic_company.db`) and reads every
     row of `orders`, `products`, `customers` and `tickets`, paged with `?limit=500&offset=N`, through the
-    window's own `acme://` protocol (no network port). Writes are refused (405).
+    window's own `generic_company://` protocol (no network port). Writes are refused (405).
   - **Mock snapshot:** with no database (or `--mock`, or *Data → Mock snapshot*) the bundled `mock/`
     snapshot (3,000 orders, 400 tickets).
 - **Numbers & tracks:** the two fixture files in `data/`, charted as `data/README.md` describes, with a
@@ -35,7 +35,7 @@ cargo build --release --features desktop
 ```
 
 ```bash
-target\release\acme-dash.exe
+target\release\generic-company-dash.exe
 ```
 
 The first command keeps the build machine's paths out of the wasm and the exe: both builds write the
@@ -47,16 +47,16 @@ mock snapshot (`python -m http.server 8711 --directory www`; `?tab=fixtures` ope
 ## Install
 
 ```bash
-target\release\acme-dash.exe --install
+target\release\generic-company-dash.exe --install
 ```
 
-Installs for the current user: copies the exe and `www` to `%LOCALAPPDATA%\Programs\ACME Inc\ACME Data Dash\`,
-adds **ACME Inc → ACME Data Dash** to the Start menu (`--desktop-shortcut` for the desktop too) and lists it
+Installs for the current user: copies the exe and `www` to `%LOCALAPPDATA%\Programs\Generic Company Inc\Generic Company Data Dash\`,
+adds **Generic Company Inc → Generic Company Data Dash** to the Start menu (`--desktop-shortcut` for the desktop too) and lists it
 in **Apps & features**. `--uninstall` (or Apps & features) removes it; the database is never deleted
 (`--purge` also removes the program's settings and WebView2 profile). `--root DIR` does all of it inside
 DIR. Other flags: `--version`, `--quiet`, `--smoke FILE`.
 
-`wizard-maker.exe build setup.json` (ACME Wizard Maker) makes the setup, `dist\ACME Data Dash-0.2.0-setup.exe`.
+`wizard-maker.exe build setup.json` (Generic Company Wizard Maker) makes the setup, `dist\Generic Company Data Dash-0.2.0-setup.exe`.
 
 ## Tests
 
