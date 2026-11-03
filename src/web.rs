@@ -52,7 +52,13 @@ pub fn start() -> Result<(), JsValue> {
     let numbers = numbers::parse(NUMBERS).map_err(|e| JsValue::from_str(&e))?;
     let samples = tracks::parse(TRACKS).map_err(|e| JsValue::from_str(&e))?;
     el("fixture-charts").set_inner_html(&render::fixtures(&numbers, &samples));
-    APP.with(|a| *a.borrow_mut() = Some(App { numbers, class: String::new(), page: 0 }));
+    APP.with(|a| {
+        *a.borrow_mut() = Some(App {
+            numbers,
+            class: String::new(),
+            page: 0,
+        })
+    });
     draw_table();
     el("version").set_text_content(Some(concat!("Generic Company Data Dash ", env!("CARGO_PKG_VERSION"))));
     wire()?;
@@ -74,7 +80,10 @@ fn use_mock(why: &str) {
         Ok(d) => {
             el("business").set_inner_html(&render::business(&d, "Mock snapshot bundled with this app"));
             set_mode(false);
-            status(&format!("{why}: {} orders, {} tickets.", d.orders.len(), d.tickets.len()), false);
+            status(
+                &format!("{why}: {} orders, {} tickets.", d.orders.len(), d.tickets.len()),
+                false,
+            );
         }
         Err(e) => status(&format!("Mock snapshot unreadable: {e}"), true),
     }
@@ -100,11 +109,21 @@ async fn load_hub() {
         Ok(d) => {
             el("business").set_inner_html(&render::business(&d, &format!("Shared database {db}")));
             set_mode(true);
-            status(&format!("Shared database {db}: {} orders, {} tickets, read with GET /api/{{table}}?limit={PAGE}&offset=N.", d.orders.len(), d.tickets.len()), false);
+            status(
+                &format!(
+                    "Shared database {db}: {} orders, {} tickets, read with GET /api/{{table}}?limit={PAGE}&offset=N.",
+                    d.orders.len(),
+                    d.tickets.len()
+                ),
+                false,
+            );
         }
         Err(err) => {
             use_mock("Database unavailable");
-            status(&format!("Could not read the shared database ({err}). Showing the mock snapshot."), true);
+            status(
+                &format!("Could not read the shared database ({err}). Showing the mock snapshot."),
+                true,
+            );
         }
     }
 }
@@ -112,7 +131,9 @@ async fn load_hub() {
 /// The database the desktop program serves, or None (no database, or a plain browser).
 async fn source_db() -> Option<String> {
     let text = get_text("/api/source").await.ok()?;
-    serde_json::from_str::<Value>(&text).ok()?["db"].as_str().map(String::from)
+    serde_json::from_str::<Value>(&text).ok()?["db"]
+        .as_str()
+        .map(String::from)
 }
 
 async fn get_text(url: &str) -> Result<String, String> {
@@ -120,25 +141,44 @@ async fn get_text(url: &str) -> Result<String, String> {
     init.set_method("GET");
     let req = Request::new_with_str_and_init(url, &init).map_err(js_err)?;
     let win = web_sys::window().ok_or("no window")?;
-    let resp: Response = JsFuture::from(win.fetch_with_request(&req)).await.map_err(js_err)?.dyn_into().map_err(js_err)?;
+    let resp: Response = JsFuture::from(win.fetch_with_request(&req))
+        .await
+        .map_err(js_err)?
+        .dyn_into()
+        .map_err(js_err)?;
     if resp.status() != 200 {
         return Err(format!("{} on {url}", resp.status()));
     }
-    Ok(JsFuture::from(resp.text().map_err(js_err)?).await.map_err(js_err)?.as_string().unwrap_or_default())
+    Ok(JsFuture::from(resp.text().map_err(js_err)?)
+        .await
+        .map_err(js_err)?
+        .as_string()
+        .unwrap_or_default())
 }
 
 /// Ask for another database file; the desktop program checks it and saves the choice.
 async fn change_db() {
     let win = web_sys::window().unwrap();
-    let Ok(Some(path)) = win.prompt_with_message("Path of the shared Generic Company database (generic_company.db):") else { return };
+    let Ok(Some(path)) = win.prompt_with_message("Path of the shared Generic Company database (generic_company.db):")
+    else {
+        return;
+    };
     if path.trim().is_empty() {
         return;
     }
     let init = RequestInit::new();
     init.set_method("POST");
-    init.set_body(&JsValue::from_str(&serde_json::json!({ "path": path.trim() }).to_string()));
-    let Ok(req) = Request::new_with_str_and_init("/host/db", &init) else { return };
-    let resp = match JsFuture::from(win.fetch_with_request(&req)).await.ok().and_then(|r| r.dyn_into::<Response>().ok()) {
+    init.set_body(&JsValue::from_str(
+        &serde_json::json!({ "path": path.trim() }).to_string(),
+    ));
+    let Ok(req) = Request::new_with_str_and_init("/host/db", &init) else {
+        return;
+    };
+    let resp = match JsFuture::from(win.fetch_with_request(&req))
+        .await
+        .ok()
+        .and_then(|r| r.dyn_into::<Response>().ok())
+    {
         Some(r) => r,
         None => return status("Choosing a database needs the desktop program.", true),
     };
@@ -146,10 +186,17 @@ async fn change_db() {
         spawn_local(load_hub());
     } else {
         let text = match resp.text() {
-            Ok(p) => JsFuture::from(p).await.ok().and_then(|v| v.as_string()).unwrap_or_default(),
+            Ok(p) => JsFuture::from(p)
+                .await
+                .ok()
+                .and_then(|v| v.as_string())
+                .unwrap_or_default(),
             Err(_) => String::new(),
         };
-        let msg = serde_json::from_str::<Value>(&text).ok().and_then(|v| v["error"].as_str().map(String::from)).unwrap_or(text);
+        let msg = serde_json::from_str::<Value>(&text)
+            .ok()
+            .and_then(|v| v["error"].as_str().map(String::from))
+            .unwrap_or(text);
         status(&format!("Not used: {msg}"), true);
     }
 }
@@ -171,8 +218,16 @@ async fn fetch_all(hub: &str, table: &str) -> Result<Vec<Value>, String> {
         init.set_method("GET");
         let req = Request::new_with_str_and_init(&url, &init).map_err(js_err)?;
         let win = web_sys::window().ok_or("no window")?;
-        let resp: Response = JsFuture::from(win.fetch_with_request(&req)).await.map_err(js_err)?.dyn_into().map_err(js_err)?;
-        let text = JsFuture::from(resp.text().map_err(js_err)?).await.map_err(js_err)?.as_string().unwrap_or_default();
+        let resp: Response = JsFuture::from(win.fetch_with_request(&req))
+            .await
+            .map_err(js_err)?
+            .dyn_into()
+            .map_err(js_err)?;
+        let text = JsFuture::from(resp.text().map_err(js_err)?)
+            .await
+            .map_err(js_err)?
+            .as_string()
+            .unwrap_or_default();
         if resp.status() != 200 {
             return Err(format!("{} on {table}", resp.status()));
         }
@@ -195,7 +250,12 @@ fn js_err(e: JsValue) -> String {
 // ---- DOM ----
 
 fn el(id: &str) -> Element {
-    web_sys::window().unwrap().document().unwrap().get_element_by_id(id).unwrap_or_else(|| panic!("#{id} missing"))
+    web_sys::window()
+        .unwrap()
+        .document()
+        .unwrap()
+        .get_element_by_id(id)
+        .unwrap_or_else(|| panic!("#{id} missing"))
 }
 
 fn input(id: &str) -> HtmlInputElement {
@@ -222,7 +282,13 @@ fn query_param(key: &str) -> Option<String> {
     let search = web_sys::window()?.location().search().ok()?;
     search.trim_start_matches('?').split('&').find_map(|kv| {
         let (k, v) = kv.split_once('=')?;
-        (k == key).then(|| js_sys::decode_uri_component(&v.replace('+', " ")).ok().map(String::from)).flatten()
+        (k == key)
+            .then(|| {
+                js_sys::decode_uri_component(&v.replace('+', " "))
+                    .ok()
+                    .map(String::from)
+            })
+            .flatten()
     })
 }
 
@@ -286,4 +352,4 @@ fn wire() -> Result<(), JsValue> {
     Ok(())
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=1880e720f35a942e3612ff9ffa4319233ad226b393ff9110a11a807728a6de53 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=090c75605435a58cca7b2c5461c54aa4d75f93c3e0b6a849314c31eabe93971a ====

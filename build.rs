@@ -13,9 +13,11 @@ fn main() {
     let desktop = std::env::var_os("CARGO_FEATURE_DESKTOP").is_some();
     let windows = std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("windows");
     if desktop && windows {
-        let res = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("icon").join("app.res");
+        let res = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("icon")
+            .join("app.res");
         println!("cargo:rustc-link-arg-bins={}", res.display());
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=d5f43a09ca4fae1bdab5e6ad3db3e492121f1329ffc2f72cb1235ed3fd98d2f0 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=8192479ae598176fb45b9b15cf9d80bb54630c3bfcd716e97eae7b62534ca29d ====

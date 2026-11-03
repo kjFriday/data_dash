@@ -24,7 +24,11 @@ pub fn ticks(max: f64, want: usize) -> Vec<f64> {
     let max = if max.is_finite() && max > 0.0 { max } else { 1.0 };
     let raw = max / want.max(1) as f64;
     let mag = 10f64.powf(raw.log10().floor());
-    let step = [1.0, 2.0, 5.0, 10.0].iter().map(|m| m * mag).find(|s| *s >= raw).unwrap_or(10.0 * mag);
+    let step = [1.0, 2.0, 5.0, 10.0]
+        .iter()
+        .map(|m| m * mag)
+        .find(|s| *s >= raw)
+        .unwrap_or(10.0 * mag);
     let top = (max / step).ceil() as usize;
     (0..=top).map(|i| i as f64 * step).collect()
 }
@@ -40,7 +44,19 @@ fn hbar_path(x: f64, y: f64, w: f64, h: f64) -> String {
     let r = 4f64.min(w / 2.0).min(h / 2.0).max(0.0);
     format!(
         "M{} {}H{}Q{} {} {} {}V{}Q{} {} {} {}H{}Z",
-        f(x), f(y), f(x + w - r), f(x + w), f(y), f(x + w), f(y + r), f(y + h - r), f(x + w), f(y + h), f(x + w - r), f(y + h), f(x)
+        f(x),
+        f(y),
+        f(x + w - r),
+        f(x + w),
+        f(y),
+        f(x + w),
+        f(y + r),
+        f(y + h - r),
+        f(x + w),
+        f(y + h),
+        f(x + w - r),
+        f(y + h),
+        f(x)
     )
 }
 
@@ -49,7 +65,19 @@ fn vbar_path(x: f64, base: f64, w: f64, h: f64) -> String {
     let top = base - h;
     format!(
         "M{} {}V{}Q{} {} {} {}H{}Q{} {} {} {}V{}Z",
-        f(x), f(base), f(top + r), f(x), f(top), f(x + r), f(top), f(x + w - r), f(x + w), f(top), f(x + w), f(top + r), f(base)
+        f(x),
+        f(base),
+        f(top + r),
+        f(x),
+        f(top),
+        f(x + r),
+        f(top),
+        f(x + w - r),
+        f(x + w),
+        f(top),
+        f(x + w),
+        f(top + r),
+        f(base)
     )
 }
 
@@ -69,7 +97,11 @@ pub fn hbars(bars: &[Bar], width: f64, label_w: f64) -> String {
     let max = if max > 0.0 { max } else { 1.0 };
     let h = row * bars.len() as f64 + 8.0;
     let mut s = format!(r#"<svg class="chart" viewBox="0 0 {} {}" role="img">"#, f(width), f(h));
-    s.push_str(&format!(r#"<line class="axis" x1="{x}" x2="{x}" y1="0" y2="{}"/>"#, f(h - 4.0), x = f(label_w)));
+    s.push_str(&format!(
+        r#"<line class="axis" x1="{x}" x2="{x}" y1="0" y2="{}"/>"#,
+        f(h - 4.0),
+        x = f(label_w)
+    ));
     for (i, b) in bars.iter().enumerate() {
         let y = 4.0 + i as f64 * row;
         let w = (b.value.max(0.0) / max) * plot;
@@ -102,12 +134,21 @@ pub fn columns(bars: &[Bar], width: f64, height: f64, every: usize, fmt: fn(f64)
     let base = top + plot_h;
     let band = plot_w / bars.len().max(1) as f64;
     let w = (band - 2.0).clamp(1.0, 24.0);
-    let mut s = format!(r#"<svg class="chart" viewBox="0 0 {} {}" role="img">"#, f(width), f(height));
+    let mut s = format!(
+        r#"<svg class="chart" viewBox="0 0 {} {}" role="img">"#,
+        f(width),
+        f(height)
+    );
     for v in &t {
         let y = base - v / ymax * plot_h;
         s.push_str(&format!(r#"<line class="grid" x1="{}" x2="{}" y1="{y}" y2="{y}"/><text class="tick" x="{}" y="{}" text-anchor="end">{}</text>"#, f(left), f(width - 8.0), f(left - 6.0), f(y + 4.0), escape(&fmt(*v)), y = f(y)));
     }
-    s.push_str(&format!(r#"<line class="axis" x1="{}" x2="{}" y1="{b}" y2="{b}"/>"#, f(left), f(width - 8.0), b = f(base)));
+    s.push_str(&format!(
+        r#"<line class="axis" x1="{}" x2="{}" y1="{b}" y2="{b}"/>"#,
+        f(left),
+        f(width - 8.0),
+        b = f(base)
+    ));
     for (i, b) in bars.iter().enumerate() {
         let x = left + i as f64 * band + (band - w) / 2.0;
         let h = b.value.max(0.0) / ymax * plot_h;
@@ -123,7 +164,12 @@ pub fn columns(bars: &[Bar], width: f64, height: f64, every: usize, fmt: fn(f64)
             c = slot(1),
         ));
         if every > 0 && i % every == 0 {
-            s.push_str(&format!(r#"<text class="tick" x="{}" y="{}" text-anchor="middle">{}</text>"#, f(x + w / 2.0), f(height - 6.0), escape(&b.label)));
+            s.push_str(&format!(
+                r#"<text class="tick" x="{}" y="{}" text-anchor="middle">{}</text>"#,
+                f(x + w / 2.0),
+                f(height - 6.0),
+                escape(&b.label)
+            ));
         }
     }
     s.push_str("</svg>");
@@ -135,7 +181,10 @@ pub fn donut(slices: &[(String, f64)], size: f64, center: &str) -> String {
     let total: f64 = slices.iter().map(|s| s.1.max(0.0)).sum();
     let (cx, r, thick) = (size / 2.0, size / 2.0 - 8.0, 22.0);
     let rm = r - thick / 2.0;
-    let mut s = format!(r#"<svg class="chart donut" viewBox="0 0 {sz} {sz}" role="img">"#, sz = f(size));
+    let mut s = format!(
+        r#"<svg class="chart donut" viewBox="0 0 {sz} {sz}" role="img">"#,
+        sz = f(size)
+    );
     let mut a0 = -std::f64::consts::FRAC_PI_2;
     for (i, (label, v)) in slices.iter().enumerate() {
         let frac = if total > 0.0 { v.max(0.0) / total } else { 0.0 };
@@ -160,7 +209,12 @@ pub fn donut(slices: &[(String, f64)], size: f64, center: &str) -> String {
         ));
         a0 = a1;
     }
-    s.push_str(&format!(r#"<text class="center" x="{c}" y="{}" text-anchor="middle">{}</text></svg>"#, f(cx + 6.0), escape(center), c = f(cx)));
+    s.push_str(&format!(
+        r#"<text class="center" x="{c}" y="{}" text-anchor="middle">{}</text></svg>"#,
+        f(cx + 6.0),
+        escape(center),
+        c = f(cx)
+    ));
     s
 }
 
@@ -170,23 +224,53 @@ pub fn line(points: &[(f64, f64)], width: f64, height: f64, x_ticks: &[f64], lab
     let (pw, ph) = (width - left - right, height - top - bottom);
     let xmin = points.iter().map(|p| p.0).fold(f64::INFINITY, f64::min);
     let xmax = points.iter().map(|p| p.0).fold(f64::NEG_INFINITY, f64::max);
-    let (xmin, xmax) = if xmin.is_finite() && xmax > xmin { (xmin, xmax) } else { (0.0, 1.0) };
+    let (xmin, xmax) = if xmin.is_finite() && xmax > xmin {
+        (xmin, xmax)
+    } else {
+        (0.0, 1.0)
+    };
     let t = ticks(points.iter().map(|p| p.1).fold(0.0, f64::max), 4);
     let ymax = *t.last().unwrap_or(&1.0);
     let sx = |x: f64| left + (x - xmin) / (xmax - xmin) * pw;
     let sy = |y: f64| top + ph - y / ymax * ph;
-    let mut s = format!(r#"<svg class="chart" viewBox="0 0 {} {}" role="img">"#, f(width), f(height));
+    let mut s = format!(
+        r#"<svg class="chart" viewBox="0 0 {} {}" role="img">"#,
+        f(width),
+        f(height)
+    );
     for v in &t {
         s.push_str(&format!(r#"<line class="grid" x1="{}" x2="{}" y1="{y}" y2="{y}"/><text class="tick" x="{}" y="{}" text-anchor="end">{}</text>"#, f(left), f(width - right), f(left - 6.0), f(sy(*v) + 4.0), f(*v), y = f(sy(*v))));
     }
     for x in x_ticks {
-        s.push_str(&format!(r#"<text class="tick" x="{}" y="{}" text-anchor="middle">{}</text>"#, f(sx(*x)), f(height - 6.0), f(*x)));
+        s.push_str(&format!(
+            r#"<text class="tick" x="{}" y="{}" text-anchor="middle">{}</text>"#,
+            f(sx(*x)),
+            f(height - 6.0),
+            f(*x)
+        ));
     }
-    let d: Vec<String> = points.iter().enumerate().map(|(i, p)| format!("{}{} {}", if i == 0 { "M" } else { "L" }, f(sx(p.0)), f(sy(p.1)))).collect();
-    s.push_str(&format!(r#"<path class="line" d="{}" stroke="{}"/>"#, d.join(""), slot(1)));
+    let d: Vec<String> = points
+        .iter()
+        .enumerate()
+        .map(|(i, p)| format!("{}{} {}", if i == 0 { "M" } else { "L" }, f(sx(p.0)), f(sy(p.1))))
+        .collect();
+    s.push_str(&format!(
+        r#"<path class="line" d="{}" stroke="{}"/>"#,
+        d.join(""),
+        slot(1)
+    ));
     let band = pw / points.len().max(1) as f64;
     for p in points {
-        s.push_str(&format!(r#"<g class="mark"><title>{} {}: {}</title><rect class="hit" x="{}" y="{}" width="{}" height="{}"/></g>"#, escape(label), f(p.0), f(p.1), f(sx(p.0) - band / 2.0), f(top), f(band), f(ph)));
+        s.push_str(&format!(
+            r#"<g class="mark"><title>{} {}: {}</title><rect class="hit" x="{}" y="{}" width="{}" height="{}"/></g>"#,
+            escape(label),
+            f(p.0),
+            f(p.1),
+            f(sx(p.0) - band / 2.0),
+            f(top),
+            f(band),
+            f(ph)
+        ));
     }
     if let Some(top_pt) = points.iter().copied().max_by(|a, b| a.1.total_cmp(&b.1)) {
         s.push_str(&format!(r#"<circle class="dot" cx="{}" cy="{}" r="4" fill="{}"/><text class="value" x="{}" y="{}">{} {}: {}</text>"#, f(sx(top_pt.0)), f(sy(top_pt.1)), slot(1), f(sx(top_pt.0) + 8.0), f(sy(top_pt.1) + 4.0), escape(label), f(top_pt.0), f(top_pt.1)));
@@ -210,7 +294,11 @@ pub fn paths(series: &[Path], xr: (f64, f64), yr: (f64, f64), width: f64) -> Str
     let height = ph + 2.0 * pad;
     let sx = |x: f64| pad + (x - xr.0) / (xr.1 - xr.0) * pw;
     let sy = |y: f64| pad + ph - (y - yr.0) / (yr.1 - yr.0) * ph;
-    let mut s = format!(r#"<svg class="chart" viewBox="0 0 {} {}" role="img">"#, f(width), f(height));
+    let mut s = format!(
+        r#"<svg class="chart" viewBox="0 0 {} {}" role="img">"#,
+        f(width),
+        f(height)
+    );
     for x in ticks(xr.1, 3).iter().flat_map(|v| [*v, -*v]) {
         s.push_str(&format!(r#"<line class="grid" x1="{x}" x2="{x}" y1="{}" y2="{}"/><text class="tick" x="{x}" y="{}" text-anchor="middle">{}</text>"#, f(pad), f(pad + ph), f(height - 10.0), f(x_val(x)), x = f(sx(x))));
     }
@@ -220,7 +308,12 @@ pub fn paths(series: &[Path], xr: (f64, f64), yr: (f64, f64), width: f64) -> Str
     for p in series {
         let color = p.slot.map_or("var(--muted)".to_string(), slot);
         if p.points.len() > 1 {
-            let d: Vec<String> = p.points.iter().enumerate().map(|(i, q)| format!("{}{} {}", if i == 0 { "M" } else { "L" }, f(sx(q.0)), f(sy(q.1)))).collect();
+            let d: Vec<String> = p
+                .points
+                .iter()
+                .enumerate()
+                .map(|(i, q)| format!("{}{} {}", if i == 0 { "M" } else { "L" }, f(sx(q.0)), f(sy(q.1))))
+                .collect();
             s.push_str(&format!(r#"<path class="line" d="{}" stroke="{color}"/>"#, d.join("")));
         }
         for (i, q) in p.points.iter().enumerate() {
@@ -235,7 +328,11 @@ pub fn paths(series: &[Path], xr: (f64, f64), yr: (f64, f64), width: f64) -> Str
 }
 
 fn x_val(v: f64) -> f64 {
-    if v == 0.0 { 0.0 } else { v } // no "-0"
+    if v == 0.0 {
+        0.0
+    } else {
+        v
+    } // no "-0"
 }
 
 #[cfg(test)]
@@ -243,7 +340,14 @@ mod tests {
     use super::*;
 
     fn bars(vals: &[f64]) -> Vec<Bar> {
-        vals.iter().enumerate().map(|(i, v)| Bar { label: format!("b{i}<"), value: *v, shown: f(*v) }).collect()
+        vals.iter()
+            .enumerate()
+            .map(|(i, v)| Bar {
+                label: format!("b{i}<"),
+                value: *v,
+                shown: f(*v),
+            })
+            .collect()
     }
 
     #[test]
@@ -272,7 +376,15 @@ mod tests {
 
     #[test]
     fn donut_segments_and_gaps() {
-        let svg = donut(&[("Prime".into(), 25.0), ("Composite".into(), 74.0), ("Neither".into(), 1.0)], 200.0, "100");
+        let svg = donut(
+            &[
+                ("Prime".into(), 25.0),
+                ("Composite".into(), 74.0),
+                ("Neither".into(), 1.0),
+            ],
+            200.0,
+            "100",
+        );
         assert_eq!(svg.matches("<path").count(), 3);
         assert_eq!(svg.matches(r#"class="gap""#).count(), 3);
         assert!(svg.contains("Composite: 74 (74%)"));
@@ -286,11 +398,27 @@ mod tests {
         let l = line(&[(1.0, 5.0), (2.0, 9.0), (3.0, 4.0)], 400.0, 160.0, &[1.0, 3.0], "n");
         assert!(l.contains("n 2: 9"));
         assert!(!line(&[], 400.0, 160.0, &[], "n").contains("NaN"));
-        let p = paths(&[Path { label: "Track 1".into(), points: vec![(0.0, 0.0), (10.0, 10.0)], slot: Some(1) }, Path { label: "Fixed".into(), points: vec![(60.0, 40.0)], slot: None }], (-300.0, 300.0), (-200.0, 200.0), 600.0);
+        let p = paths(
+            &[
+                Path {
+                    label: "Track 1".into(),
+                    points: vec![(0.0, 0.0), (10.0, 10.0)],
+                    slot: Some(1),
+                },
+                Path {
+                    label: "Fixed".into(),
+                    points: vec![(60.0, 40.0)],
+                    slot: None,
+                },
+            ],
+            (-300.0, 300.0),
+            (-200.0, 200.0),
+            600.0,
+        );
         assert_eq!(p.matches(r#"class="dot""#).count(), 3);
         assert_eq!(p.matches(r#"class="line""#).count(), 1);
         assert!(!p.contains("NaN") && !p.contains(">-0<"));
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=fb86ae9f13c588e57d3cfac645e524a16e38be3fac2ed6f5c2da37802797681a ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=03f392db285e9202ff9baebd78cd48d0560cc921f0dcc25649cafe6fb2f8812f ====

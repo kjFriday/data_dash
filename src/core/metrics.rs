@@ -70,7 +70,9 @@ impl Data {
 }
 
 pub fn cents(amount: Option<f64>) -> i64 {
-    amount.filter(|a| a.is_finite()).map_or(0, |a| (a * 100.0).round() as i64)
+    amount
+        .filter(|a| a.is_finite())
+        .map_or(0, |a| (a * 100.0).round() as i64)
 }
 
 /// "$1,234.56"
@@ -96,7 +98,13 @@ pub fn group(n: u64) -> String {
 /// 950 -> "950", 12_900 -> "12.9K", 4_200_000 -> "4.2M" (axis ticks and tiles).
 pub fn compact(v: f64) -> String {
     let a = v.abs();
-    let (d, suffix) = if a >= 1e6 { (1e6, "M") } else if a >= 1e3 { (1e3, "K") } else { (1.0, "") };
+    let (d, suffix) = if a >= 1e6 {
+        (1e6, "M")
+    } else if a >= 1e3 {
+        (1e3, "K")
+    } else {
+        (1.0, "")
+    };
     let x = v / d;
     if suffix.is_empty() || (x.fract().abs() < 0.05) || x.abs() >= 100.0 {
         format!("{:.0}{suffix}", x)
@@ -119,9 +127,17 @@ pub fn kpis(d: &Data) -> Kpis {
     Kpis {
         orders: d.orders.len(),
         revenue_cents: revenue,
-        avg_order_cents: if d.orders.is_empty() { 0 } else { revenue / d.orders.len() as i64 },
+        avg_order_cents: if d.orders.is_empty() {
+            0
+        } else {
+            revenue / d.orders.len() as i64
+        },
         customers: buyers.len(),
-        open_tickets: d.tickets.iter().filter(|t| t.status.as_deref() != Some("closed")).count(),
+        open_tickets: d
+            .tickets
+            .iter()
+            .filter(|t| t.status.as_deref() != Some("closed"))
+            .count(),
     }
 }
 
@@ -143,7 +159,11 @@ fn sorted_desc(m: HashMap<String, i64>) -> Vec<(String, i64)> {
 }
 
 pub fn revenue_by_category(d: &Data) -> Vec<(String, i64)> {
-    let cat: HashMap<i64, &str> = d.products.iter().map(|p| (p.id, p.category.as_deref().unwrap_or("Uncategorised"))).collect();
+    let cat: HashMap<i64, &str> = d
+        .products
+        .iter()
+        .map(|p| (p.id, p.category.as_deref().unwrap_or("Uncategorised")))
+        .collect();
     let mut m: HashMap<String, i64> = HashMap::new();
     for o in &d.orders {
         let c = o.product_id.and_then(|id| cat.get(&id).copied()).unwrap_or("Unknown");
@@ -177,7 +197,12 @@ pub fn top_customers(d: &Data, n: usize) -> Vec<(String, String, i64, usize)> {
         .into_iter()
         .map(|(id, (rev, k))| {
             let c = by_id.get(&id);
-            (c.map_or(format!("Customer #{id}"), |c| c.name.clone()), c.and_then(|c| c.city.clone()).unwrap_or_default(), rev, k)
+            (
+                c.map_or(format!("Customer #{id}"), |c| c.name.clone()),
+                c.and_then(|c| c.city.clone()).unwrap_or_default(),
+                rev,
+                k,
+            )
         })
         .collect();
     v.sort_by(|a, b| b.2.cmp(&a.2).then(a.0.cmp(&b.0)));
@@ -192,7 +217,10 @@ pub fn tickets_by_status(d: &Data) -> Vec<(String, usize)> {
         *m.entry(t.status.clone().unwrap_or_else(|| "open".into())).or_default() += 1;
     }
     let order = ["open", "in_progress", "closed"];
-    let mut v: Vec<(String, usize)> = order.iter().map(|s| (s.to_string(), m.remove(*s).unwrap_or(0))).collect();
+    let mut v: Vec<(String, usize)> = order
+        .iter()
+        .map(|s| (s.to_string(), m.remove(*s).unwrap_or(0)))
+        .collect();
     v.extend(m);
     v
 }
@@ -219,14 +247,33 @@ mod tests {
         // 0.1 + 0.2 style float drift must not show up
         assert_eq!(cents(Some(10.10)) + cents(Some(0.20)), 1030);
         let k = kpis(&data());
-        assert_eq!((k.orders, k.revenue_cents, k.avg_order_cents, k.customers, k.open_tickets), (4, 1535, 383, 3, 4));
+        assert_eq!(
+            (
+                k.orders,
+                k.revenue_cents,
+                k.avg_order_cents,
+                k.customers,
+                k.open_tickets
+            ),
+            (4, 1535, 383, 3, 4)
+        );
     }
 
     #[test]
     fn groups_by_month_category_and_customer() {
         let d = data();
-        assert_eq!(revenue_by_month(&d), vec![("2026-01".into(), 1030), ("2026-02".into(), 505)]);
-        assert_eq!(revenue_by_category(&d), vec![("Compiled".into(), 1010), ("Embedded".into(), 525), ("Unknown".into(), 0)]);
+        assert_eq!(
+            revenue_by_month(&d),
+            vec![("2026-01".into(), 1030), ("2026-02".into(), 505)]
+        );
+        assert_eq!(
+            revenue_by_category(&d),
+            vec![
+                ("Compiled".into(), 1010),
+                ("Embedded".into(), 525),
+                ("Unknown".into(), 0)
+            ]
+        );
         assert_eq!(top_products(&d, 1), vec![("Ada Toolkit".into(), 1010)]);
         let top = top_customers(&d, 2);
         assert_eq!(top[0], ("Maria Garcia".into(), "Lyon".into(), 1515, 2));
@@ -236,7 +283,15 @@ mod tests {
     #[test]
     fn status_counts_keep_board_order() {
         let v = tickets_by_status(&data());
-        assert_eq!(v, vec![("open".into(), 2), ("in_progress".into(), 1), ("closed".into(), 1), ("weird".into(), 1)]);
+        assert_eq!(
+            v,
+            vec![
+                ("open".into(), 2),
+                ("in_progress".into(), 1),
+                ("closed".into(), 1),
+                ("weird".into(), 1)
+            ]
+        );
     }
 
     #[test]
@@ -266,4 +321,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=009d90b2e20d285114b1d4f3bebfd5e31037faa5a33d342333f675a9eba4051a ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=34e4eeec6a3fe33ec6e5c503652a539d2c48bda16c26491f0a9167ecdcc56fd9 ====

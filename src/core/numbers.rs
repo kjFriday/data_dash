@@ -57,7 +57,10 @@ pub fn class_counts(rows: &[NumberRow]) -> Vec<(String, usize)> {
 pub fn prime_split(rows: &[NumberRow]) -> (usize, usize, usize) {
     let has = |r: &NumberRow, c: &str| r.classes.iter().any(|x| x == c);
     let p = rows.iter().filter(|r| has(r, "prime number")).count();
-    let c = rows.iter().filter(|r| !has(r, "prime number") && has(r, "composite number")).count();
+    let c = rows
+        .iter()
+        .filter(|r| !has(r, "prime number") && has(r, "composite number"))
+        .count();
     (p, c, rows.len() - p - c)
 }
 
@@ -74,7 +77,8 @@ pub fn median_sitelinks_x2(rows: &[NumberRow]) -> Option<u32> {
 }
 
 pub fn most_linked(rows: &[NumberRow]) -> Option<&NumberRow> {
-    rows.iter().max_by(|a, b| a.sitelinks.cmp(&b.sitelinks).then(b.n.cmp(&a.n)))
+    rows.iter()
+        .max_by(|a, b| a.sitelinks.cmp(&b.sitelinks).then(b.n.cmp(&a.n)))
 }
 
 #[cfg(test)]
@@ -87,7 +91,10 @@ mod tests {
     fn shape_matches_the_data_readme() {
         let rows = parse(FILE).unwrap();
         assert_eq!(rows.len(), 100);
-        assert_eq!(rows.iter().map(|r| r.n).collect::<Vec<_>>(), (1..=100).collect::<Vec<_>>());
+        assert_eq!(
+            rows.iter().map(|r| r.n).collect::<Vec<_>>(),
+            (1..=100).collect::<Vec<_>>()
+        );
         let counts = class_counts(&rows);
         assert_eq!(counts.len(), 144);
         let get = |c: &str| counts.iter().find(|(k, _)| k == c).map(|x| x.1);
@@ -114,7 +121,12 @@ mod tests {
 
     #[test]
     fn median_halves() {
-        let row = |s| NumberRow { n: 1, item: String::new(), sitelinks: s, classes: vec![] };
+        let row = |s| NumberRow {
+            n: 1,
+            item: String::new(),
+            sitelinks: s,
+            classes: vec![],
+        };
         assert_eq!(median_sitelinks_x2(&[row(3), row(1), row(2)]), Some(4));
         assert_eq!(median_sitelinks_x2(&[row(1), row(2)]), Some(3));
         assert_eq!(median_sitelinks_x2(&[]), None);
@@ -128,4 +140,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=e2f2165f028195f2c4eda0e87a9405c31114fb6b848adbf2ffe6ddb82bc9abe4 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=837eb8f8710d516ac6e51a8c35e85bb4c540a629f12f0ee0470dbb2d77c9db5a ====

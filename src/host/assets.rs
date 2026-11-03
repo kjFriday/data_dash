@@ -52,7 +52,9 @@ fn www_for(exe: &Path) -> PathBuf {
     if beside.join("index.html").is_file() {
         return beside;
     }
-    let target = exe.ancestors().find(|d| d.file_name().is_some_and(|n| n.eq_ignore_ascii_case("target")));
+    let target = exe
+        .ancestors()
+        .find(|d| d.file_name().is_some_and(|n| n.eq_ignore_ascii_case("target")));
     match target.and_then(Path::parent).map(|project| project.join("www")) {
         Some(d) if d.join("index.html").is_file() => d,
         _ => beside,
@@ -99,7 +101,10 @@ mod tests {
             std::fs::write(tmp.join(dir).join("www").join("index.html"), "").unwrap();
         }
         let exe = "generic_company.exe";
-        assert_eq!(www_for(&tmp.join("installed").join(exe)), tmp.join("installed").join("www"));
+        assert_eq!(
+            www_for(&tmp.join("installed").join(exe)),
+            tmp.join("installed").join("www")
+        );
         let built = tmp.join("project").join("target").join("release");
         assert_eq!(www_for(&built.join(exe)), tmp.join("project").join("www"));
         // no page anywhere: the folder beside the exe, as when installed
@@ -108,4 +113,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=91836e589986f2888d427ea734f71f83cbb7d1770f4220db183eb417cddd77f2 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=ebbac1d1dbb565c32ac545bfa1e215a9c1d44ea2ba35c394c61b6ebb08abe82a ====

@@ -28,8 +28,18 @@ pub fn parse(text: &str) -> Result<Vec<Sample>, String> {
             if f.len() != 4 {
                 return Err(format!("line {}: expected 4 fields, got {}", i + 1, f.len()));
             }
-            let num = |s: &str| s.parse::<f64>().ok().filter(|v| v.is_finite()).ok_or(format!("line {}: bad number {s:?}", i + 1));
-            Ok(Sample { t: num(f[0])?, x: num(f[1])?, y: num(f[2])?, id: f[3].parse().map_err(|e| format!("line {}: {e}", i + 1))? })
+            let num = |s: &str| {
+                s.parse::<f64>()
+                    .ok()
+                    .filter(|v| v.is_finite())
+                    .ok_or(format!("line {}: bad number {s:?}", i + 1))
+            };
+            Ok(Sample {
+                t: num(f[0])?,
+                x: num(f[1])?,
+                y: num(f[2])?,
+                id: f[3].parse().map_err(|e| format!("line {}: {e}", i + 1))?,
+            })
         })
         .collect()
 }
@@ -66,7 +76,9 @@ mod tests {
         assert_eq!(counts, vec![(1, 15), (2, 14), (3, 11), (7, 8)]);
         assert!(is_stationary(&t[&7]));
         assert!(!is_stationary(&t[&1]));
-        assert!(s.iter().all(|p| (-280.0..=280.0).contains(&p.x) && (-180.0..=172.0).contains(&p.y)));
+        assert!(s
+            .iter()
+            .all(|p| (-280.0..=280.0).contains(&p.x) && (-180.0..=172.0).contains(&p.y)));
     }
 
     #[test]
@@ -77,4 +89,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=a1b878bba775565222ae8c5b31dad043ce117c190dd073eebcf57ddeaf3b6746 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=f9d7132a737459cbad86eb54117520a816fe93d0fffd76c83085208c9c7346f2 ====
