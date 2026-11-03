@@ -1,14 +1,5 @@
 // ==== Generic Company Inc. portfolio ====================================
 // Project: data_dash | File: src/web.rs
-// About: ==== Generic Company Inc. portfolio ===============================================...
-// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
-// You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
-// Reused code, if any, is mapped in PROVENANCE.md.
-// ========================================================================
-
-// ==== Generic Company Inc. portfolio ===============================================
-// Project: data_dash | File: src/web.rs
 // About: Page wiring.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
@@ -295,4 +286,4 @@ fn wire() -> Result<(), JsValue> {
     Ok(())
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=d5eeb91d4dcd738fd7f6f2718ce68ca768a2adfab19b7c2785c0771c98af274b ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=1880e720f35a942e3612ff9ffa4319233ad226b393ff9110a11a807728a6de53 ====

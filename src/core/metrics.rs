@@ -1,14 +1,5 @@
 // ==== Generic Company Inc. portfolio ====================================
 // Project: data_dash | File: src/core/metrics.rs
-// About: ==== Generic Company Inc. portfolio ===============================================...
-// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
-// You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
-// Reused code, if any, is mapped in PROVENANCE.md.
-// ========================================================================
-
-// ==== Generic Company Inc. portfolio ===============================================
-// Project: data_dash | File: src/core/metrics.rs
 // About: Business metrics over hub rows.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
@@ -275,4 +266,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=bdb9a9473f924b05fc45a37dbc6c41c831e3f61eb7c3a0a99ad4fa2927bf53a3 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=009d90b2e20d285114b1d4f3bebfd5e31037faa5a33d342333f675a9eba4051a ====

@@ -1,14 +1,5 @@
 // ==== Generic Company Inc. portfolio ====================================
 // Project: data_dash | File: src/host/paths.rs
-// About: ==== Generic Company Inc. portfolio ===============================================...
-// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
-// You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
-// Reused code, if any, is mapped in PROVENANCE.md.
-// ========================================================================
-
-// ==== Generic Company Inc. portfolio ===============================================
-// Project: data_dash | File: src/host/paths.rs
 // About: Where the program keeps its files.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
@@ -143,4 +134,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=59f0555269f8c1d78695be7b604ff656026f121850ecd2f20a8175a467169aa7 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=6e9521ead7e6340160534c1c70a105acfc89aa8c744971d051e0825014dfd461 ====

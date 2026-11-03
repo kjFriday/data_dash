@@ -1,14 +1,5 @@
 // ==== Generic Company Inc. portfolio ====================================
 // Project: data_dash | File: src/host/mod.rs
-// About: ==== Generic Company Inc. portfolio ===============================================...
-// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
-// You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
-// Reused code, if any, is mapped in PROVENANCE.md.
-// ========================================================================
-
-// ==== Generic Company Inc. portfolio ===============================================
-// Project: data_dash | File: src/host/mod.rs
 // About: The desktop program: a native window (tao) with Edge WebView2 (wry) showing the wasm page...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
@@ -379,4 +370,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=0f8968c236ab02340c1edfb3073f6e8266f76f7022f769eaed1417c3398a81aa ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=655c3ae0c34cbe50752f656bd7767b4ced1385dffeb75a67882789a7db969a46 ====

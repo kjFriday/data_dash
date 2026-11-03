@@ -1,14 +1,5 @@
 /* ==== Generic Company Inc. portfolio ==================================== */
 /* Project: data_dash | File: www/style.css */
-/* About: ==== Generic Company Inc. portfolio ===============================================... */
-/* Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only */
-/* You may change this file under the AGPL-3.0. The stamp at the end marks */
-/* the version kjFriday wrote. Verify with the portfolio's stamp.py --check. */
-/* Reused code, if any, is mapped in PROVENANCE.md. */
-/* ======================================================================== */
-
-/* ==== Generic Company Inc. portfolio =============================================== */
-/* Project: data_dash | File: www/style.css */
 /* About: Reference palette (validated): categorical slots, chart chrome and ink, light and dark... */
 /* Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only */
 /* You may change this file under the AGPL-3.0. The stamp at the end marks */
@@ -99,4 +90,4 @@ footer > output.error { color: var(--danger); }
 .px { image-rendering: pixelated; vertical-align: middle; margin-right: 8px; }
 footer .version { float: right; color: var(--muted); }
 
-/* ==== stamp v1 | author=kjFriday | hmac-sha256=475fcba56d049d95f819168a4a2d536ccf440bd346b3153eb5f0075be8ed886e ==== */
+/* ==== stamp v1 | author=kjFriday | hmac-sha256=44bfb8f89a63807ba8082a8e31a97e92793f573664227f709da5164004ea0a85 ==== */

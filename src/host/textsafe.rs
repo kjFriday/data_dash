@@ -1,14 +1,5 @@
 // ==== Generic Company Inc. portfolio ====================================
 // Project: data_dash | File: src/host/textsafe.rs
-// About: ==== Generic Company Inc. portfolio ===============================================...
-// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
-// You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
-// Reused code, if any, is mapped in PROVENANCE.md.
-// ========================================================================
-
-// ==== Generic Company Inc. portfolio ===============================================
-// Project: data_dash | File: src/host/textsafe.rs
 // About: The CRUD hub's textsafe rules (copied from the ticket tracker's `core::validate::clean`)...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
@@ -48,4 +39,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=5f1afebc026fa72b278e10047a51fd8e1409db4f2af5bec2f0d4465f8394c9b4 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=79624da5b8f1d92302c4dac1c537414d4fdd9c8ac2139c7ae3922e6e41c118d5 ====

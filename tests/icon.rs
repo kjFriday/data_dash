@@ -1,14 +1,5 @@
 // ==== Generic Company Inc. portfolio ====================================
 // Project: data_dash | File: tests/icon.rs
-// About: ==== Generic Company Inc. portfolio ===============================================...
-// Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
-// You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
-// Reused code, if any, is mapped in PROVENANCE.md.
-// ========================================================================
-
-// ==== Generic Company Inc. portfolio ===============================================
-// Project: data_dash | File: tests/icon.rs
 // About: The pixel icon: app.ico holds 16/32/48 px as BMP and 256 px as PNG, the BMP sizes are the...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
@@ -81,4 +72,4 @@ fn credited() {
     assert!(readme.contains("Creative Commons Attribution 2.5") && readme.contains("Mark James"));
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=a16f6e89a673fbc01fee29c7088ff5f4717079f91e272c50697228b85c064298 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=ff0a9b96f6ab669bdf179fd11a7b72e062da30d0ae7117bb7439c444b2a56fd7 ====
