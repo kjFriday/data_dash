@@ -3,7 +3,7 @@
 // About: The page's files (index.html, the wasm build, the icon), served from the `www` folder...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -113,4 +113,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=ebbac1d1dbb565c32ac545bfa1e215a9c1d44ea2ba35c394c61b6ebb08abe82a ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=a5091c55786825a170e1a4799a50d0cda3fc0dd7c644a959c56bed8763e38cfc ====

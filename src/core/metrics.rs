@@ -3,7 +3,7 @@
 // About: Business metrics over hub rows.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -321,4 +321,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=34e4eeec6a3fe33ec6e5c503652a539d2c48bda16c26491f0a9167ecdcc56fd9 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=6c279f0a04bfccf8865f898f1c87e6af0309578524d06fc1ae9cc5e9b44d02d6 ====

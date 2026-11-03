@@ -3,7 +3,7 @@
 // About: data/numbers.dat: n TAB item TAB sitelinks TAB classes (| separated); `#` lines are...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -140,4 +140,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=837eb8f8710d516ac6e51a8c35e85bb4c540a629f12f0ee0470dbb2d77c9db5a ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=9e31797b4b3bdaada28882ae4b8044a74420c8255a3d62be14d1bfec4594c71e ====

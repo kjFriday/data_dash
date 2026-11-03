@@ -3,7 +3,7 @@
 /* About: Reference palette (validated): categorical slots, chart chrome and ink, light and dark... */
 /* Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only */
 /* You may change this file under the AGPL-3.0. The stamp at the end marks */
-/* the version kjFriday wrote. Verify with the portfolio's stamp.py --check. */
+/* the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check. */
 /* Reused code, if any, is mapped in PROVENANCE.md. */
 /* ======================================================================== */
 
@@ -90,4 +90,4 @@ footer > output.error { color: var(--danger); }
 .px { image-rendering: pixelated; vertical-align: middle; margin-right: 8px; }
 footer .version { float: right; color: var(--muted); }
 
-/* ==== stamp v1 | author=kjFriday | hmac-sha256=44bfb8f89a63807ba8082a8e31a97e92793f573664227f709da5164004ea0a85 ==== */
+/* ==== stamp v1 | author=kjFriday | hmac-sha256=13be6983c07b8f738e0257917b5d2d201e355ab95b658df415e04094e3c860e4 ==== */

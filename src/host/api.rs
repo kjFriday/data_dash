@@ -3,7 +3,7 @@
 // About: The page's data API, answered from the shared SQLite file with the CRUD hub's contract...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -385,4 +385,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=6612a7dd959857cad2a49baf89abfeb2e6745041de188d6c8c620cdb82b256cd ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=a668b7e7feda71b5f812a13ccb1f62436e83cc0629724c8bd24949e52dc5ed72 ====

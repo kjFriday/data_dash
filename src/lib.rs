@@ -3,7 +3,7 @@
 // About: Generic Company Inc. data dashboard.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -18,4 +18,4 @@ mod web;
 #[cfg(all(feature = "desktop", windows))]
 pub mod host;
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=2829f6fbd78faae03dfe5ac52269f4cf0acf3a5c8b91cff27a5759ea32c018ce ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=054c3bdc75fc040cf2fbaf07e87aa93984c441784a093304e7ca00cd6010df14 ====

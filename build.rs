@@ -3,7 +3,7 @@
 // About: Links icon/app.res (the pixel icon as resource 1, plus a DPI-aware manifest) into the...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -20,4 +20,4 @@ fn main() {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=8192479ae598176fb45b9b15cf9d80bb54630c3bfcd716e97eae7b62534ca29d ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=b1605cdc6ff4494f8c5938fa6a5eabf5bee346f1cfc39d4ad856536ad0f1d91a ====

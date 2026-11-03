@@ -3,7 +3,7 @@
 // About: data/tracks.dat: t x y id, space-separated, one sample per row.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -89,4 +89,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=f9d7132a737459cbad86eb54117520a816fe93d0fffd76c83085208c9c7346f2 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=6c0123a2f725374899d604d9dc99e255218c4a9ee923a4df20122d837030723f ====

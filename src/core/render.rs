@@ -3,7 +3,7 @@
 // About: HTML for the two views.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -380,4 +380,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=4a317acbc03c328e2c3b6f5c81ebbf06fc944c64881c3a20b3c0f411b334cdda ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=d798b03842f36cc6a3d4dcc6def9ba89621edee8251417bebc5c917bc11c11de ====

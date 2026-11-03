@@ -3,7 +3,7 @@
 // About: Where the program keeps its files.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -161,4 +161,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=80e080b1e0e0a9be6ddb49ed8230badfe8df05658adee0a241e153935fd91a9a ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=53548c716a4904b8c8ca9515277dc602e5c3e5a7d61bcd2366557daf3ed0de31 ====

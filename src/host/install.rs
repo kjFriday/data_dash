@@ -3,7 +3,7 @@
 // About: Install or uninstall the program for the current user (no admin rights): the exe, its...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -848,4 +848,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=7d53cd4da3b827348378ef583c7672a77bbf64fe6780a55493a5da9403fa38ae ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=0aa0fc9b71fae273bbe52b587fd164d5c042dbaa7223a85e0ef011524a881ab8 ====

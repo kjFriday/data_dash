@@ -3,7 +3,7 @@
 // About: The pixel icon: app.ico holds 16/32/48 px as BMP and 256 px as PNG, the BMP sizes are the...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -72,4 +72,4 @@ fn credited() {
     assert!(readme.contains("Creative Commons Attribution 2.5") && readme.contains("Mark James"));
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=ff0a9b96f6ab669bdf179fd11a7b72e062da30d0ae7117bb7439c444b2a56fd7 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=f7d7ca2093fb02c573ee24c6721e1c199860488687c27897d92280f8cdd0d143 ====

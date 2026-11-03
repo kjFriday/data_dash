@@ -3,7 +3,7 @@
 // About: The CRUD hub's textsafe rules (copied from the ticket tracker's `core::validate::clean`)...
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -39,4 +39,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=79624da5b8f1d92302c4dac1c537414d4fdd9c8ac2139c7ae3922e6e41c118d5 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=3c505750719dc8de7f6dd733b0daab83d8fedabf22484f5aacce869149264419 ====

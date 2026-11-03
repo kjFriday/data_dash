@@ -3,7 +3,7 @@
 // About: Page wiring.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -352,4 +352,4 @@ fn wire() -> Result<(), JsValue> {
     Ok(())
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=090c75605435a58cca7b2c5461c54aa4d75f93c3e0b6a849314c31eabe93971a ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=beda6a4c84bd950264e0323e8e418f01bf09bf5d4691934ad5d6b5bf7dea52bd ====

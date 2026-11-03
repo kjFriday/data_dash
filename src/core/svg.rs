@@ -3,7 +3,7 @@
 // About: Hand-built SVG charts.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
-// the version kjFriday wrote. Verify with the portfolio's stamp.py --check.
+// the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
@@ -421,4 +421,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=03f392db285e9202ff9baebd78cd48d0560cc921f0dcc25649cafe6fb2f8812f ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=8591fb4107210574e0f97546ab50efbbe493b074a03d9e22ca3d95120f9b23ff ====
