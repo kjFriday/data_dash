@@ -12,7 +12,7 @@
 //! square baseline, 2px lines, >= 8px markers with a 2px surface ring, hairline grid, and a
 //! `<title>` on every mark for the hover tooltip. Text never wears a series color.
 
-use super::render::escape;
+use super::html::escape;
 
 /// One categorical slot (1-based) as a CSS variable.
 pub fn slot(n: usize) -> String {
@@ -33,10 +33,20 @@ pub fn ticks(max: f64, want: usize) -> Vec<f64> {
     (0..=top).map(|i| i as f64 * step).collect()
 }
 
+/// A number as SVG text: one decimal, a trailing ".0" dropped; NaN and infinities print as 0.
 fn f(v: f64) -> String {
     let v = if v.is_finite() { v } else { 0.0 };
     let s = format!("{v:.1}");
     s.strip_suffix(".0").map(String::from).unwrap_or(s)
+}
+
+/// `v` with -0.0 made 0.0, so an axis label never reads "-0" (`f` keeps the sign).
+fn no_negative_zero(v: f64) -> f64 {
+    if v == 0.0 {
+        0.0
+    } else {
+        v
+    }
 }
 
 /// A bar from the baseline with only its data end rounded (r = 4, or less for a short bar).
@@ -279,7 +289,8 @@ pub fn line(points: &[(f64, f64)], width: f64, height: f64, x_ticks: &[f64], lab
     s
 }
 
-pub struct Path {
+/// One labelled path of x/y points for `paths`.
+pub struct XyPath {
     pub label: String,
     pub points: Vec<(f64, f64)>,
     /// categorical slot, or None for the muted ink (a reference mark, not a series)
@@ -287,7 +298,7 @@ pub struct Path {
 }
 
 /// x/y paths on fixed axes, so shapes keep their proportions.
-pub fn paths(series: &[Path], xr: (f64, f64), yr: (f64, f64), width: f64) -> String {
+pub fn paths(series: &[XyPath], xr: (f64, f64), yr: (f64, f64), width: f64) -> String {
     let pad = 30.0;
     let pw = width - 2.0 * pad;
     let ph = pw * (yr.1 - yr.0) / (xr.1 - xr.0);
@@ -300,10 +311,10 @@ pub fn paths(series: &[Path], xr: (f64, f64), yr: (f64, f64), width: f64) -> Str
         f(height)
     );
     for x in ticks(xr.1, 3).iter().flat_map(|v| [*v, -*v]) {
-        s.push_str(&format!(r#"<line class="grid" x1="{x}" x2="{x}" y1="{}" y2="{}"/><text class="tick" x="{x}" y="{}" text-anchor="middle">{}</text>"#, f(pad), f(pad + ph), f(height - 10.0), f(x_val(x)), x = f(sx(x))));
+        s.push_str(&format!(r#"<line class="grid" x1="{x}" x2="{x}" y1="{}" y2="{}"/><text class="tick" x="{x}" y="{}" text-anchor="middle">{}</text>"#, f(pad), f(pad + ph), f(height - 10.0), f(no_negative_zero(x)), x = f(sx(x))));
     }
     for y in ticks(yr.1, 2).iter().flat_map(|v| [*v, -*v]) {
-        s.push_str(&format!(r#"<line class="grid" x1="{}" x2="{}" y1="{y}" y2="{y}"/><text class="tick" x="{}" y="{}" text-anchor="end">{}</text>"#, f(pad), f(pad + pw), f(pad - 4.0), f(sy(y) + 4.0), f(x_val(y)), y = f(sy(y))));
+        s.push_str(&format!(r#"<line class="grid" x1="{}" x2="{}" y1="{y}" y2="{y}"/><text class="tick" x="{}" y="{}" text-anchor="end">{}</text>"#, f(pad), f(pad + pw), f(pad - 4.0), f(sy(y) + 4.0), f(no_negative_zero(y)), y = f(sy(y))));
     }
     for p in series {
         let color = p.slot.map_or("var(--muted)".to_string(), slot);
@@ -325,14 +336,6 @@ pub fn paths(series: &[Path], xr: (f64, f64), yr: (f64, f64), width: f64) -> Str
     }
     s.push_str("</svg>");
     s
-}
-
-fn x_val(v: f64) -> f64 {
-    if v == 0.0 {
-        0.0
-    } else {
-        v
-    } // no "-0"
 }
 
 #[cfg(test)]
@@ -400,12 +403,12 @@ mod tests {
         assert!(!line(&[], 400.0, 160.0, &[], "n").contains("NaN"));
         let p = paths(
             &[
-                Path {
+                XyPath {
                     label: "Track 1".into(),
                     points: vec![(0.0, 0.0), (10.0, 10.0)],
                     slot: Some(1),
                 },
-                Path {
+                XyPath {
                     label: "Fixed".into(),
                     points: vec![(60.0, 40.0)],
                     slot: None,
@@ -421,4 +424,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=8591fb4107210574e0f97546ab50efbbe493b074a03d9e22ca3d95120f9b23ff ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=b25ecd8c1602b60dfec8db3e8ccecdcf38ed1b32dee2a35051b802214eaa974a ====

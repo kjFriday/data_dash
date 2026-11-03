@@ -7,29 +7,34 @@
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
-//! HTML for the two views. Every value from data passes `escape`.
+//! HTML for the two views. Every value from data passes `escape` (core/html.rs).
 
+use super::html::escape;
 use super::metrics::{self, compact, group, money, Data};
 use super::numbers::{self, NumberRow};
-use super::svg::{self, Bar, Path};
+use super::svg::{self, Bar, XyPath};
 use super::tracks::{self, Sample};
 
 pub const PAGE_ROWS: usize = 15;
 
-pub fn escape(s: &str) -> String {
-    let mut out = String::with_capacity(s.len());
-    for c in s.chars() {
-        match c {
-            '&' => out.push_str("&amp;"),
-            '<' => out.push_str("&lt;"),
-            '>' => out.push_str("&gt;"),
-            '"' => out.push_str("&quot;"),
-            '\'' => out.push_str("&#39;"),
-            _ => out.push(c),
-        }
-    }
-    out
-}
+// Chart sizes in SVG viewBox units: style.css stretches `svg.chart` to its card's width and shows `svg.donut`
+// 200px wide. The label widths are the column left of each bar chart's bars.
+const CHART_W: f64 = 560.0;
+const COLUMNS_H: f64 = 220.0;
+const LINE_H: f64 = 200.0;
+const DONUT_SIZE: f64 = 200.0;
+const CATEGORY_LABEL_W: f64 = 120.0;
+const PRODUCT_LABEL_W: f64 = 150.0;
+const CLASS_LABEL_W: f64 = 190.0;
+const TRACK_LABEL_W: f64 = 90.0;
+/// Month labels under the revenue columns: every n-th month is labelled, so about this many show.
+const MONTH_LABELS: usize = 6;
+/// Series colors in style.css (`--series-1` to `--series-3`). The status donut and its legend show this many
+/// statuses (the board's three); the first this many moving tracks get a color, later ones and fixed points
+/// take the muted ink.
+const SLOTS: usize = 3;
+/// Classes listed in a number-table row; the rest are counted as " +N".
+const CLASSES_SHOWN: usize = 6;
 
 pub fn tile(label: &str, value: &str, note: &str) -> String {
     format!(
@@ -99,11 +104,11 @@ pub fn business(d: &Data, source: &str) -> String {
             shown: money(*c),
         })
         .collect();
-    let every = (bars.len() / 6).max(1);
+    let every = (bars.len() / MONTH_LABELS).max(1);
     let mut grid = card(
         "Revenue by month",
         "Order totals per calendar month",
-        &svg::columns(&bars, 560.0, 220.0, every, |v| format!("${}", compact(v))),
+        &svg::columns(&bars, CHART_W, COLUMNS_H, every, |v| format!("${}", compact(v))),
     );
 
     let cats: Vec<Bar> = metrics::revenue_by_category(d)
@@ -117,7 +122,7 @@ pub fn business(d: &Data, source: &str) -> String {
     grid.push_str(&card(
         "Revenue by product category",
         "All orders in this data",
-        &svg::hbars(&cats, 560.0, 120.0),
+        &svg::hbars(&cats, CHART_W, CATEGORY_LABEL_W),
     ));
 
     let prods: Vec<Bar> = metrics::top_products(d, 10)
@@ -131,15 +136,19 @@ pub fn business(d: &Data, source: &str) -> String {
     grid.push_str(&card(
         "Top 10 products",
         "By revenue",
-        &svg::hbars(&prods, 560.0, 150.0),
+        &svg::hbars(&prods, CHART_W, PRODUCT_LABEL_W),
     ));
 
     let st = metrics::tickets_by_status(d);
-    let slices: Vec<(String, f64)> = st.iter().take(3).map(|(s, n)| (status_label(s), *n as f64)).collect();
+    let slices: Vec<(String, f64)> = st
+        .iter()
+        .take(SLOTS)
+        .map(|(s, n)| (status_label(s), *n as f64))
+        .collect();
     let total: usize = st.iter().map(|x| x.1).sum();
     let leg: Vec<(String, Option<usize>)> = st
         .iter()
-        .take(3)
+        .take(SLOTS)
         .enumerate()
         .map(|(i, (s, n))| (format!("{} {}", status_label(s), group(*n as u64)), Some(i + 1)))
         .collect();
@@ -148,7 +157,7 @@ pub fn business(d: &Data, source: &str) -> String {
         "Every ticket in this data",
         &format!(
             r#"<div class="donut-row">{}{}</div>"#,
-            svg::donut(&slices, 200.0, &format!("{} tickets", group(total as u64))),
+            svg::donut(&slices, DONUT_SIZE, &format!("{} tickets", group(total as u64))),
             legend(&leg)
         ),
     ));
@@ -187,9 +196,9 @@ pub fn number_table(rows: &[NumberRow], class: &str, page: usize) -> (String, us
         r#"<table><thead><tr><th class="num">n</th><th>Item</th><th class="num">Sitelinks</th><th>Classes tagged on Wikidata</th></tr></thead><tbody>"#,
     );
     for r in hits.iter().skip(page * PAGE_ROWS).take(PAGE_ROWS) {
-        let shown: Vec<String> = r.classes.iter().take(6).map(|c| escape(c)).collect();
-        let more = if r.classes.len() > 6 {
-            format!(" +{}", r.classes.len() - 6)
+        let shown: Vec<String> = r.classes.iter().take(CLASSES_SHOWN).map(|c| escape(c)).collect();
+        let more = if r.classes.len() > CLASSES_SHOWN {
+            format!(" +{}", r.classes.len() - CLASSES_SHOWN)
         } else {
             String::new()
         };
@@ -251,7 +260,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
     let mut grid = card(
         "Top 15 classes",
         "Rows per class, tagged on Wikidata",
-        &svg::hbars(&bars, 560.0, 190.0),
+        &svg::hbars(&bars, CHART_W, CLASS_LABEL_W),
     );
     let slices = [
         ("Prime".to_string(), p as f64),
@@ -268,7 +277,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
         "Tagged on Wikidata",
         &format!(
             r#"<div class="donut-row">{}{}</div>"#,
-            svg::donut(&slices, 200.0, "100 numbers"),
+            svg::donut(&slices, DONUT_SIZE, "100 numbers"),
             legend(&leg)
         ),
     ));
@@ -278,8 +287,8 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
         "How many Wikimedia sites link each item",
         &svg::line(
             &pts,
-            560.0,
-            200.0,
+            CHART_W,
+            LINE_H,
             &[1.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0],
             "n",
         ),
@@ -291,7 +300,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
     let mut leg = Vec::new();
     for (id, pts) in &by {
         let still = tracks::is_stationary(pts);
-        let slot = if still || moving >= 3 {
+        let slot = if still || moving >= SLOTS {
             None
         } else {
             moving += 1;
@@ -303,7 +312,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
             format!("Track {id}")
         };
         leg.push((label.clone(), slot));
-        series.push(Path {
+        series.push(XyPath {
             label,
             points: pts.iter().map(|s| (s.x, s.y)).collect(),
             slot,
@@ -315,7 +324,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
         &format!(
             "{}{}",
             legend(&leg),
-            svg::paths(&series, (-300.0, 300.0), (-200.0, 200.0), 560.0)
+            svg::paths(&series, (-300.0, 300.0), (-200.0, 200.0), CHART_W)
         ),
     ));
     let counts: Vec<Bar> = by
@@ -329,7 +338,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
     grid.push_str(&card(
         "Samples per track",
         "Rows in tracks.dat",
-        &svg::hbars(&counts, 560.0, 90.0),
+        &svg::hbars(&counts, CHART_W, TRACK_LABEL_W),
     ));
     out.push_str(&format!(r#"<div class="grid">{grid}</div>"#));
     out
@@ -380,4 +389,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=d798b03842f36cc6a3d4dcc6def9ba89621edee8251417bebc5c917bc11c11de ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=f6c980942e128ab1a739558bb8e4773ba932840fdd1c9b7a225d83621f896c9d ====

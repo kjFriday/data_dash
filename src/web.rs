@@ -30,8 +30,10 @@ const MOCK: [&str; 4] = [
 ];
 const NUMBERS: &str = include_str!("../data/numbers.dat");
 const TRACKS: &str = include_str!("../data/tracks.dat");
-const API: &str = ""; // same origin: the desktop program answers /api/... from the shared database
+const API_ORIGIN: &str = ""; // same origin: the desktop program answers /api/... from the shared database
 const PAGE: usize = 500; // the largest ?limit
+/// `#source`'s option for the shared database in index.html (its value dates from when the CRUD hub served /api).
+const DB_OPTION: &str = "hub";
 
 struct App {
     numbers: Vec<NumberRow>,
@@ -68,8 +70,8 @@ pub fn start() -> Result<(), JsValue> {
     if query_param("source").as_deref() == Some("mock") {
         use_mock("Mock snapshot");
     } else {
-        select("source").set_value("hub");
-        spawn_local(load_hub());
+        select("source").set_value(DB_OPTION);
+        spawn_local(load_db());
     }
     Ok(())
 }
@@ -89,8 +91,8 @@ fn use_mock(why: &str) {
     }
 }
 
-async fn load_hub() {
-    let hub = API.to_string();
+async fn load_db() {
+    let origin = API_ORIGIN.to_string();
     let Some(db) = source_db().await else {
         use_mock("No shared database here, so the mock snapshot");
         return;
@@ -100,7 +102,7 @@ async fn load_hub() {
         let mut parts = Vec::new();
         for table in ["orders", "products", "customers", "tickets"] {
             status(&format!("Reading {table} ..."), false);
-            parts.push(Value::Array(fetch_all(&hub, table).await?).to_string());
+            parts.push(Value::Array(fetch_all(&origin, table).await?).to_string());
         }
         Data::from_json(&parts[0], &parts[1], &parts[2], &parts[3])
     }
@@ -183,7 +185,7 @@ async fn change_db() {
         None => return status("Choosing a database needs the desktop program.", true),
     };
     if resp.status() == 200 {
-        spawn_local(load_hub());
+        spawn_local(load_db());
     } else {
         let text = match resp.text() {
             Ok(p) => JsFuture::from(p)
@@ -210,10 +212,11 @@ async fn about() {
     let _ = web_sys::window().unwrap().alert_with_message(&text);
 }
 
-async fn fetch_all(hub: &str, table: &str) -> Result<Vec<Value>, String> {
+/// Every row of a shared-database table, paging with ?limit/&offset.
+async fn fetch_all(origin: &str, table: &str) -> Result<Vec<Value>, String> {
     let mut rows = Vec::new();
     loop {
-        let url = format!("{hub}/api/{table}?limit={PAGE}&offset={}", rows.len());
+        let url = format!("{origin}/api/{table}?limit={PAGE}&offset={}", rows.len());
         let init = RequestInit::new();
         init.set_method("GET");
         let req = Request::new_with_str_and_init(&url, &init).map_err(js_err)?;
@@ -318,8 +321,8 @@ fn on(id: &str, kind: &str, f: impl FnMut(Event) + 'static) -> Result<(), JsValu
 
 fn wire() -> Result<(), JsValue> {
     let reload = |_| {
-        if select("source").value() == "hub" {
-            spawn_local(load_hub());
+        if select("source").value() == DB_OPTION {
+            spawn_local(load_db());
         } else {
             use_mock("Standalone: mock snapshot");
         }
@@ -352,4 +355,4 @@ fn wire() -> Result<(), JsValue> {
     Ok(())
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=beda6a4c84bd950264e0323e8e418f01bf09bf5d4691934ad5d6b5bf7dea52bd ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=5563a91e812050d3b4ec4c056913d5a4f55540402e981d321bedde797dbd9569 ====

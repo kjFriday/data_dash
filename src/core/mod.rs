@@ -7,10 +7,11 @@
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
+pub mod html;
 pub mod metrics;
 pub mod numbers;
 pub mod render;
 pub mod svg;
 pub mod tracks;
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=548bf948998b594777f3ba601de28c58a5bbaf2101904b551f8c2ce0688eaa98 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=9a1806f8e894499da6d3370e835e2c7e8f2c877bf79ec0c11e41b47d9f37375b ====
