@@ -1,13 +1,22 @@
 /* ==== Generic Company Inc. portfolio ==================================== */
 /* Project: data_dash | File: www/style.css */
-/* About: Reference palette (validated): categorical slots, chart chrome and ink, light and dark... */
+/* About: Styles for the dashboard page and every class the Rust code emits. */
 /* Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only */
 /* You may change this file under the AGPL-3.0. The stamp at the end marks */
 /* the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check. */
 /* Reused code, if any, is mapped in PROVENANCE.md. */
 /* ======================================================================== */
 
+/* Styles for the dashboard page and every class the Rust code emits.
+   index.html sets class="viz-root" on <body>; the custom properties below live there, so the charts
+   (src/core/svg.rs) and views (src/core/render.rs) name colors only as var(--...). Renaming a class
+   or variable here needs the same rename in those files. Sections: palette, page and controls,
+   header, tiles and cards, charts, tables, footer, pixel icon. */
+
 /* Reference palette (validated): categorical slots, chart chrome and ink, light and dark steps. */
+/* --series-1..3 are the three categorical chart colors (svg::slot); --muted is the ink for
+   reference marks and notes; --grid and --axis are the chart chrome; --ring is the hairline border
+   of controls and cards; --live colors the "shared database" badge. */
 .viz-root {
   color-scheme: light;
   --surface-1: #fcfcfb; --page: #f9f9f7;
@@ -16,6 +25,8 @@
   --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a;
   --accent: #2a78d6; --live: #006300; --danger: #d03b3b;
 }
+/* the dark step follows the system setting unless the root element has data-theme="light";
+   :where() adds no specificity, so the selector weighs the same as .viz-root plus one ancestor */
 @media (prefers-color-scheme: dark) {
   :root:where(:not([data-theme="light"])) .viz-root {
     color-scheme: dark;
@@ -27,12 +38,14 @@
   }
 }
 
+/* page and controls: the footer stays at the bottom because body is a full-height column */
 * { box-sizing: border-box; }
 body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; background: var(--page); color: var(--text-primary); font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; }
 button, input, select { font: inherit; color: inherit; background: var(--surface-1); border: 1px solid var(--ring); border-radius: 6px; padding: 4px 8px; }
 button { cursor: pointer; }
 button:disabled { opacity: .45; cursor: default; }
 
+/* header: title, tabs (pushed left by margin-right: auto), mode badge and data controls */
 .top { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 10px 16px; background: var(--surface-1); border-bottom: 1px solid var(--ring); }
 .top h1 { font-size: 18px; margin: 0 8px 0 0; }
 .top h1 span { color: var(--text-secondary); font-weight: 400; }
@@ -43,6 +56,7 @@ button:disabled { opacity: .45; cursor: default; }
 .badge { font-size: 12px; padding: 2px 8px; border-radius: 999px; background: var(--grid); }
 .badge.live { background: var(--live); color: #fff; }
 
+/* tiles and cards: auto-fit grids fill as many columns as fit (tiles from 170px, cards from 420px) */
 main { flex: 1; padding: 16px; }
 .hero { margin-bottom: 12px; }
 .hero-label, .tile-label { color: var(--text-secondary); }
@@ -57,6 +71,9 @@ main { flex: 1; padding: 16px; }
 .card.wide input { width: min(360px, 100%); margin-bottom: 8px; }
 
 /* charts */
+/* a chart's viewBox scales to the card width; the donut stays 200px, one unit per pixel. .hit is the
+   transparent hover target of each .mark; .gap and the .dot ring use the surface color so they read
+   as cut-outs */
 svg.chart { width: 100%; height: auto; display: block; overflow: visible; }
 svg.donut { width: 200px; flex: none; }
 .chart text { font-size: 11px; fill: var(--text-secondary); }
@@ -75,6 +92,7 @@ svg.donut { width: 200px; flex: none; }
 .donut-row .legend { flex-direction: column; font-size: 13px; }
 .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
 
+/* tables: .num right-aligns numbers in equal-width digits */
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th { text-align: left; color: var(--text-secondary); font-weight: 600; border-bottom: 1px solid var(--axis); padding: 4px 6px; }
 td { border-bottom: 1px solid var(--grid); padding: 4px 6px; vertical-align: top; }
@@ -82,6 +100,7 @@ td { border-bottom: 1px solid var(--grid); padding: 4px 6px; vertical-align: top
 td.classes { color: var(--text-secondary); }
 .pager { display: flex; gap: 10px; align-items: center; justify-content: flex-end; margin-top: 8px; color: var(--muted); }
 
+/* footer: the status line (web.rs adds .error) and the version */
 footer > output { display: block; padding: 6px 16px; border-top: 1px solid var(--ring); background: var(--surface-1); color: var(--muted); font-family: ui-monospace, monospace; font-size: 12px; }
 footer > output.error { color: var(--danger); }
 .loading { color: var(--muted); }
@@ -90,4 +109,4 @@ footer > output.error { color: var(--danger); }
 .px { image-rendering: pixelated; vertical-align: middle; margin-right: 8px; }
 footer .version { float: right; color: var(--muted); }
 
-/* ==== stamp v1 | author=kjFriday | hmac-sha256=13be6983c07b8f738e0257917b5d2d201e355ab95b658df415e04094e3c860e4 ==== */
+/* ==== stamp v1 | author=kjFriday | hmac-sha256=1e0bacb47ef01643f76f27721b60223318e37f36d603cafe017bc44cd1e268f1 ==== */

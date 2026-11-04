@@ -8,6 +8,17 @@
 // ========================================================================
 
 //! HTML for the two views. Every value from data passes `escape` (core/html.rs).
+//!
+//! `web.rs` calls three entry points and sets each result as an element's `innerHTML`:
+//! - `business(&Data, source)` -> the Business tab: a hero figure, four tiles and five cards (revenue
+//!   by month, by category, top products, tickets by status, top customers).
+//! - `fixtures(rows, samples)` -> the charts of the Numbers & tracks tab: four tiles and five cards.
+//! - `number_table(rows, filter, page)` -> that tab's filterable, paged table, plus the page actually
+//!   shown.
+//!
+//! The markup uses the classes www/style.css defines (`.hero`, `.tiles`, `.tile`, `.grid`, `.card`,
+//! `.sub`, `.donut-row`, `.legend`, `.num`, `.classes`, `.pager`); renaming one here needs the same
+//! rename there. The charts come from `svg.rs`. Start reading at `business`.
 
 use super::html::escape;
 use super::metrics::{self, compact, group, money, Data};
@@ -15,17 +26,26 @@ use super::numbers::{self, NumberRow};
 use super::svg::{self, Bar, XyPath};
 use super::tracks::{self, Sample};
 
+/// Rows per page of the number table (100 rows -> 7 pages).
 pub const PAGE_ROWS: usize = 15;
 
 // Chart sizes in SVG viewBox units: style.css stretches `svg.chart` to its card's width and shows `svg.donut`
 // 200px wide. The label widths are the column left of each bar chart's bars.
+/// Width of every card chart; heights of bar charts follow from their row count.
 const CHART_W: f64 = 560.0;
+/// Height of the revenue-by-month columns.
 const COLUMNS_H: f64 = 220.0;
+/// Height of the sitelinks line chart.
 const LINE_H: f64 = 200.0;
+/// Width and height of a donut (matches the 200px `svg.donut` in style.css, so 1 unit = 1px).
 const DONUT_SIZE: f64 = 200.0;
+/// Label column for product categories.
 const CATEGORY_LABEL_W: f64 = 120.0;
+/// Label column for product names (the longest labels on the Business tab).
 const PRODUCT_LABEL_W: f64 = 150.0;
+/// Label column for Wikidata class names ("positive integer", "composite number" ...).
 const CLASS_LABEL_W: f64 = 190.0;
+/// Label column for "Track N".
 const TRACK_LABEL_W: f64 = 90.0;
 /// Month labels under the revenue columns: every n-th month is labelled, so about this many show.
 const MONTH_LABELS: usize = 6;
@@ -36,6 +56,7 @@ const SLOTS: usize = 3;
 /// Classes listed in a number-table row; the rest are counted as " +N".
 const CLASSES_SHOWN: usize = 6;
 
+/// One KPI tile: a label, a big value and a small note under it (all three escaped).
 pub fn tile(label: &str, value: &str, note: &str) -> String {
     format!(
         r#"<div class="tile"><div class="tile-label">{}</div><div class="tile-value">{}</div><div class="tile-note">{}</div></div>"#,
@@ -45,6 +66,10 @@ pub fn tile(label: &str, value: &str, note: &str) -> String {
     )
 }
 
+/// One card: an `<h2>` title, a subtitle line and `body`.
+///
+/// The title and subtitle are escaped; `body` is markup the caller built (a chart or a table) and goes
+/// in as is.
 fn card(title: &str, sub: &str, body: &str) -> String {
     format!(
         r#"<section class="card"><h2>{}</h2><p class="sub">{}</p>{body}</section>"#,
@@ -54,6 +79,9 @@ fn card(title: &str, sub: &str, body: &str) -> String {
 }
 
 /// Legend with a swatch beside each label (identity never rests on color alone).
+///
+/// `items` are (label, slot): a 1-based series slot (`svg::slot`) or None for the muted ink. The
+/// label carries the meaning; the swatch only links it to the chart.
 pub fn legend(items: &[(String, Option<usize>)]) -> String {
     let mut s = String::from(r#"<ul class="legend">"#);
     for (label, slot) in items {
@@ -67,6 +95,7 @@ pub fn legend(items: &[(String, Option<usize>)]) -> String {
     s
 }
 
+/// A ticket status as people read it ("in_progress" -> "In progress"); unknown statuses pass through.
 fn status_label(s: &str) -> String {
     match s {
         "open" => "Open".into(),
@@ -76,6 +105,17 @@ fn status_label(s: &str) -> String {
     }
 }
 
+/// The Business tab for `d`; `source` names the data under the hero figure ("Shared database PATH" or
+/// the mock snapshot).
+///
+/// Steps:
+/// 1. Hero: total revenue and order count, then four tiles from `metrics::kpis`.
+/// 2. Revenue by month as columns, with about `MONTH_LABELS` month labels under them.
+/// 3. Revenue by category and the top 10 products as horizontal bars.
+/// 4. Tickets by status as a donut of the board's three statuses, with a legend.
+/// 5. The top 10 customers as a table.
+///
+/// The five cards of steps 2-5 sit in one `.grid`, which style.css flows into as many columns as fit.
 pub fn business(d: &Data, source: &str) -> String {
     let k = metrics::kpis(d);
     let mut out = String::from(r#"<div class="hero">"#);
@@ -95,6 +135,8 @@ pub fn business(d: &Data, source: &str) -> String {
     ));
     out.push_str("</div>");
 
+    // ---- revenue by month ----
+    // value in dollars here, not cents: the y-axis ticks print `value` through `compact`
     let months = metrics::revenue_by_month(d);
     let bars: Vec<Bar> = months
         .iter()
@@ -104,6 +146,7 @@ pub fn business(d: &Data, source: &str) -> String {
             shown: money(*c),
         })
         .collect();
+    // 12 months -> every 2nd labelled; under 12 months every one is
     let every = (bars.len() / MONTH_LABELS).max(1);
     let mut grid = card(
         "Revenue by month",
@@ -111,6 +154,9 @@ pub fn business(d: &Data, source: &str) -> String {
         &svg::columns(&bars, CHART_W, COLUMNS_H, every, |v| format!("${}", compact(v))),
     );
 
+    // ---- category and product bars ----
+    // value in cents: bar charts have no axis, only lengths relative to the longest bar, and `shown`
+    // prints the money
     let cats: Vec<Bar> = metrics::revenue_by_category(d)
         .into_iter()
         .map(|(c, v)| Bar {
@@ -139,6 +185,10 @@ pub fn business(d: &Data, source: &str) -> String {
         &svg::hbars(&prods, CHART_W, PRODUCT_LABEL_W),
     ));
 
+    // ---- tickets by status ----
+    // Known limitation: only the first SLOTS statuses (the board's three) become slices and legend
+    // entries, while the centre total counts every ticket, so tickets with an unknown status are in
+    // the total but in no slice.
     let st = metrics::tickets_by_status(d);
     let slices: Vec<(String, f64)> = st
         .iter()
@@ -162,6 +212,7 @@ pub fn business(d: &Data, source: &str) -> String {
         ),
     ));
 
+    // ---- top customers ----
     let mut table = String::from(
         r#"<table><thead><tr><th>Customer</th><th>City</th><th class="num">Orders</th><th class="num">Revenue</th></tr></thead><tbody>"#,
     );
@@ -188,6 +239,15 @@ pub fn filter_rows<'a>(rows: &'a [NumberRow], class: &str) -> Vec<&'a NumberRow>
         .collect()
 }
 
+/// The number table for `rows` filtered by `class`, showing 0-based `page` -> (html, page shown).
+///
+/// Steps:
+/// 1. Filter with `filter_rows` and count pages of `PAGE_ROWS`; no hits still makes one (empty) page.
+/// 2. Clamp `page` to the last page; the caller stores the returned page, so a stale page number after
+///    the filter narrows never shows an empty table.
+/// 3. One row per hit on the page, with the first `CLASSES_SHOWN` classes and " +N" for the rest.
+/// 4. A pager: Previous and Next buttons whose `data-page` holds the page they go to (`web.rs` reads it
+///    on click), disabled at either end, and "N rows, page P of Q".
 pub fn number_table(rows: &[NumberRow], class: &str, page: usize) -> (String, usize) {
     let hits = filter_rows(rows, class);
     let pages = hits.len().div_ceil(PAGE_ROWS).max(1);
@@ -222,9 +282,19 @@ pub fn number_table(rows: &[NumberRow], class: &str, page: usize) -> (String, us
     (s, page)
 }
 
+/// The charts of the Numbers & tracks tab, laid out as data/README.md's "Intended charts" describe.
+///
+/// Steps:
+/// 1. Tiles: row count, distinct classes, median sitelinks and the most linked item.
+/// 2. numbers.dat: the top 15 classes as bars, prime/composite/neither as a donut, and sitelinks
+///    against n as a line.
+/// 3. tracks.dat: every track as an x/y path on fixed axes, then samples per track as bars.
+///
+/// The table under these cards is `number_table`, drawn separately so filtering redraws only it.
 pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
     let counts = numbers::class_counts(rows);
     let (p, c, n) = numbers::prime_split(rows);
+    // back from half-units: an odd value is a median ending in .5
     let med = numbers::median_sitelinks_x2(rows).unwrap_or(0);
     let med_s = if med.is_multiple_of(2) {
         (med / 2).to_string()
@@ -248,6 +318,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
     ));
     out.push_str("</div>");
 
+    // ---- numbers.dat ----
     let bars: Vec<Bar> = counts
         .iter()
         .take(15)
@@ -281,6 +352,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
             legend(&leg)
         ),
     ));
+    // x ticks at 1 and every multiple of 10, where data/README.md notes the sitelink bumps
     let pts: Vec<(f64, f64)> = rows.iter().map(|r| (r.n as f64, r.sitelinks as f64)).collect();
     grid.push_str(&card(
         "Sitelinks by number",
@@ -294,6 +366,9 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
         ),
     ));
 
+    // ---- tracks.dat ----
+    // moving tracks take slots 1..=SLOTS in id order; a fixed point (or a moving track past the
+    // slots) is drawn in the muted ink and its legend label says so
     let by = tracks::by_track(samples);
     let mut moving = 0;
     let mut series = Vec::new();
@@ -324,6 +399,7 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
         &format!(
             "{}{}",
             legend(&leg),
+            // the fixed -300..300 by -200..200 axes data/README.md asks for, so shapes keep their proportions
             svg::paths(&series, (-300.0, 300.0), (-200.0, 200.0), CHART_W)
         ),
     ));
@@ -344,14 +420,18 @@ pub fn fixtures(rows: &[NumberRow], samples: &[Sample]) -> String {
     out
 }
 
+/// Unit tests: filtering and paging, and both views rendered from the real fixtures and mock snapshot.
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    /// The 100 rows of data/numbers.dat.
     fn rows() -> Vec<NumberRow> {
         numbers::parse(include_str!("../../data/numbers.dat")).unwrap()
     }
 
+    /// The filter ignores case and outer spaces; a page past the end clamps to the last (10 rows plus
+    /// the header row); no hits still gives "page 1 of 1".
     #[test]
     fn filter_and_paging() {
         let r = rows();
@@ -368,6 +448,8 @@ mod tests {
         assert!(none.contains("0 rows, page 1 of 1"));
     }
 
+    /// Both views render without "NaN": the fixture view shows the 144 classes and labels track 7 as
+    /// fixed; the business view escapes `source` and has its five cards.
     #[test]
     fn views_render() {
         let samples = tracks::parse(include_str!("../../data/tracks.dat")).unwrap();
@@ -389,4 +471,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=f6c980942e128ab1a739558bb8e4773ba932840fdd1c9b7a225d83621f896c9d ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=03cb5f14b2335556b30a9187e41f353557cfbf644da559fd7eb9f86c1f2d486d ====

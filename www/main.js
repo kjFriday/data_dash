@@ -8,10 +8,17 @@
 // ========================================================================
 
 // Loads the Rust/WebAssembly build; everything else happens in src/web.rs.
+//
+// index.html loads this file as an ES module. ./pkg/ticket_tracker.js is the glue wasm-pack writes
+// (wasm-pack build --target web --out-dir www/pkg); its default export fetches and instantiates
+// ticket_tracker_bg.wasm beside it, then runs the Rust function marked #[wasm_bindgen(start)]
+// (web.rs `start`), which wires up the whole page.
 import init from "./pkg/data_dash.js";
 
+// a failed fetch of the wasm, an error returned by start, or a panic during start rejects the promise;
+// the status bar is the one place the user will see it
 init().catch((err) => {
   document.getElementById("status").textContent = "Could not start: " + err;
 });
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=ada05f3fb2b14dc0b8517d72aa759b128957e78ed1d27ed0a89a52f0e8b82461 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=92a005daed4eba217a6b32012d3fb8a63766ea4a52bcb1bedf7301cf5ad47f7f ====

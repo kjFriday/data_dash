@@ -1,24 +1,44 @@
 // ==== Generic Company Inc. portfolio ====================================
 // Project: data_dash | File: src/core/numbers.rs
-// About: data/numbers.dat: n TAB item TAB sitelinks TAB classes (| separated); `#` lines are...
+// About: Parser and statistics for data/numbers.dat, the integers 1 to 100 as Wikidata tags them.
 // Copyright (c) 2026 kjFriday | SPDX-License-Identifier: AGPL-3.0-only
 // You may change this file under the AGPL-3.0. The stamp at the end marks
 // the version kjFriday wrote. Verify with the portfolio's tools/stamp.py --check.
 // Reused code, if any, is mapped in PROVENANCE.md.
 // ========================================================================
 
+//! Parser and statistics for data/numbers.dat, the integers 1 to 100 as Wikidata tags them.
+//!
 //! data/numbers.dat: n TAB item TAB sitelinks TAB classes (| separated); `#` lines are comments.
+//! data/README.md describes the columns and the intended charts. A sitelink is a link from a Wikidata
+//! item to a page about it on one Wikimedia site (a Wikipedia language edition, Wikiquote ...), so
+//! the count is a rough measure of how widely the number is written about. The classes are the item's
+//! "instance of" (P31) values, which reflect what editors have tagged, not mathematical truth.
+//!
+//! `web.rs` parses the compiled-in file once at start; `render::fixtures` and `render::number_table`
+//! call the statistics: `class_counts`, `prime_split`, `median_sitelinks_x2` and `most_linked`.
 
 use std::collections::BTreeMap;
 
+/// One line of numbers.dat.
 #[derive(Debug, Clone, PartialEq)]
 pub struct NumberRow {
+    /// The number itself, 1 to 100.
     pub n: u32,
+    /// Its Wikidata item id ("Q199" for 1).
     pub item: String,
+    /// How many Wikimedia sites link the item.
     pub sitelinks: u32,
+    /// Class labels in file order; empty pieces between `|` are dropped.
     pub classes: Vec<String>,
 }
 
+/// Parses numbers.dat -> one `NumberRow` per data line, in file order.
+///
+/// Blank lines and lines starting with `#` are skipped; a trailing `\r` is dropped, since the file has
+/// CRLF line endings. Errors: "line N: ..." for a line without exactly 4 tab-separated fields or with
+/// an `n` or `sitelinks` that is not a `u32`. N is the line number in the file, comments included, because lines are
+/// numbered before the filter.
 pub fn parse(text: &str) -> Result<Vec<NumberRow>, String> {
     text.lines()
         .map(|l| l.trim_end_matches('\r'))
@@ -54,6 +74,9 @@ pub fn class_counts(rows: &[NumberRow]) -> Vec<(String, usize)> {
 }
 
 /// (prime, composite, neither) by Wikidata tag.
+///
+/// A row tagged both "prime number" and "composite number" counts as prime. "Neither" is every other
+/// row; in the fixture that is only 1, which is neither prime nor composite.
 pub fn prime_split(rows: &[NumberRow]) -> (usize, usize, usize) {
     let has = |r: &NumberRow, c: &str| r.classes.iter().any(|x| x == c);
     let p = rows.iter().filter(|r| has(r, "prime number")).count();
@@ -65,6 +88,10 @@ pub fn prime_split(rows: &[NumberRow]) -> (usize, usize, usize) {
 }
 
 /// Median sitelinks in half-units (2 × median), so an even count stays exact.
+///
+/// The median of an even count is the mean of the two middle values, which may end in .5; doubling
+/// it keeps the result an integer. `render::fixtures` halves it again for display ("99" or "99.5").
+/// None for no rows.
 pub fn median_sitelinks_x2(rows: &[NumberRow]) -> Option<u32> {
     let mut v: Vec<u32> = rows.iter().map(|r| r.sitelinks).collect();
     v.sort_unstable();
@@ -76,17 +103,24 @@ pub fn median_sitelinks_x2(rows: &[NumberRow]) -> Option<u32> {
     }
 }
 
+/// The row with the most sitelinks, or None for no rows; a tie goes to the smallest `n`.
 pub fn most_linked(rows: &[NumberRow]) -> Option<&NumberRow> {
+    // `max_by` keeps the last of equal maxima, so the tie-break compares `n` reversed to rank a
+    // smaller n higher
     rows.iter()
         .max_by(|a, b| a.sitelinks.cmp(&b.sitelinks).then(b.n.cmp(&a.n)))
 }
 
+/// Unit tests against the real fixture file and small hand-made rows.
 #[cfg(test)]
 mod tests {
     use super::*;
 
+    /// The fixture, compiled in from data/.
     const FILE: &str = include_str!("../../data/numbers.dat");
 
+    /// Row count, class count, top class counts, the 25/74/1 split and 3-59 classes per row are the
+    /// figures data/README.md states; a change to the file or the parser shows up here.
     #[test]
     fn shape_matches_the_data_readme() {
         let rows = parse(FILE).unwrap();
@@ -109,6 +143,7 @@ mod tests {
         assert_eq!((per_row.iter().min(), per_row.iter().max()), (Some(&3), Some(&59)));
     }
 
+    /// 1 (Q199) is the most linked with 221, 100 has 142, and the median lies in the README's 73-221 range.
     #[test]
     fn sitelink_stats() {
         let rows = parse(FILE).unwrap();
@@ -119,6 +154,7 @@ mod tests {
         assert!((73 * 2..=221 * 2).contains(&m));
     }
 
+    /// Odd count: 2 × the middle (unsorted input); even count: the sum of the two middles; empty: None.
     #[test]
     fn median_halves() {
         let row = |s| NumberRow {
@@ -132,6 +168,7 @@ mod tests {
         assert_eq!(median_sitelinks_x2(&[]), None);
     }
 
+    /// A bad number and a short line are errors naming the line; comments and CRLF blanks parse to nothing.
     #[test]
     fn bad_lines_are_reported() {
         assert!(parse("1\tQ1\tx\ta").unwrap_err().contains("line 1"));
@@ -140,4 +177,4 @@ mod tests {
     }
 }
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=9e31797b4b3bdaada28882ae4b8044a74420c8255a3d62be14d1bfec4594c71e ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=a31c9cce7db4e822e265857d7c14d37ff0e42235e39c949d78490b9c580d9daf ====

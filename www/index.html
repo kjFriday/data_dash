@@ -8,6 +8,19 @@
 <!-- Reused code, if any, is mapped in PROVENANCE.md. -->
 <!-- ======================================================================== -->
 
+<!--
+  The page shell of the dashboard; src/web.rs fills it in.
+  The desktop program serves this folder over its own generic-company:// protocol; a plain web
+  server works too, with the mock snapshot. main.js loads the WebAssembly build (pkg/, made by
+  wasm-pack) and starts src/web.rs, which renders both tabs into the empty containers below.
+  Every id here is looked up by web.rs, which stops with "#id missing" if one is gone:
+  tab-business, tab-fixtures, mode, source, reload, change-db, about (header controls);
+  business, fixtures, fixture-charts, class-filter, number-table (tab contents); status, version
+  (footer). main.rs's smoke check also reads #status and counts the svg charts in #business.
+  The source option values: "hub" is the shared database (the value dates from when the CRUD hub
+  served /api; web.rs DB_OPTION matches it), "mock" the bundled snapshot.
+  The title is the window's page title in the smoke report.
+-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -53,4 +66,4 @@
 </body>
 </html>
 
-<!-- ==== stamp v1 | author=kjFriday | hmac-sha256=a4ee2cccc88d6ca0ba1280a300cfc76ef9bcfba2b8b01ebb4c3bbc59f2953ff1 ==== -->
+<!-- ==== stamp v1 | author=kjFriday | hmac-sha256=eaff7909dae79cec9f6db033aa6888685328bd020feb8661ede6433147c68b52 ==== -->

@@ -9,13 +9,26 @@
 
 //! Generic Company Inc. data dashboard. `core` is plain Rust (tested on the host); `web` binds it to the page;
 //! `host` (feature `desktop`) is the native window that shows that page over the shared database.
+//!
+//! One crate, built two ways:
+//! 1. `wasm-pack build` (target wasm32) compiles `core` and `web` into `www/pkg/`, the page's
+//!    WebAssembly; www/main.js loads it and `web::start` takes over the page.
+//! 2. `cargo build --features desktop` on Windows compiles `core` and `host`; src/main.rs (the exe)
+//!    calls `host::main`, which opens a window that loads that same page from `www/`.
+//!
+//! `cargo test` runs `core`'s tests on the host; `--features desktop` adds `host`'s. Start reading at
+//! `core` for what the board does, `web` for how the page drives it.
 
+/// The board logic shared by both builds: models, filters, form validation and HTML rendering.
 pub mod core;
 
+/// The page wiring: DOM events, drawing and `fetch` calls (WebAssembly builds only).
 #[cfg(target_arch = "wasm32")]
 mod web;
 
+/// The desktop program: window, WebView2, `/api` over SQLite, installer and settings (Windows,
+/// feature `desktop`).
 #[cfg(all(feature = "desktop", windows))]
 pub mod host;
 
-// ==== stamp v1 | author=kjFriday | hmac-sha256=054c3bdc75fc040cf2fbaf07e87aa93984c441784a093304e7ca00cd6010df14 ====
+// ==== stamp v1 | author=kjFriday | hmac-sha256=ada3f2aa5193bd0dba4ee533705dba6b124264a55c9373e7ad45db0f0ddbd238 ====
